@@ -1,15 +1,21 @@
+/*
+ * Do not modify this class
+ * */
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class EngineMouse extends MouseAdapter {
+    private GameController gameController;
     private MouseInput mouseInput;
 
     private int mxPressed, myPressed;
     private int mxReleased, myReleased;
     private int buttonPressed, buttonReleased;
 
-    public EngineMouse() {
-        mouseInput = new MouseInput(this);
+    public EngineMouse(GameController gameController) {
+        this.gameController = gameController;
+        mouseInput = new MouseInput(this, gameController);
     }
 
     public void mousePressed(MouseEvent e) {

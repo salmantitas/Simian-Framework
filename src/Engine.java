@@ -1,3 +1,7 @@
+/*
+* Do not modify
+* */
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -6,35 +10,38 @@ public class Engine extends Canvas {
     /*
     * By Default:
     * VERSION = 0.1
-    * TITLE = "Euhedral Engine 0.1"
+    * TITLE = "Euhedral Engine 0.123"
     * SCREEN_RATIO = 4.0/3.0
     * WIDTH = 640
     * HEIGHT = 480
     * BACKGROUND_COLOR = Color.BLACK
     */
-    public double VERSION = 0.12;
-    public String TITLE = "Euhedral Engine " + VERSION;
-    public double SCREEN_RATIO = 4.0/3.0;
-    public int WIDTH = 640;
-    public int HEIGHT = (int) (WIDTH / SCREEN_RATIO);
-    public Color BACKGROUND_COLOR = Color.BLACK;
+    public static double VERSION = 0.13;
+    public static String TITLE = "Euhedral Engine " + VERSION;
+    public static double SCREEN_RATIO = 4.0/3.0;
+    public static int WIDTH = 640;
+    public static int HEIGHT = (int) (WIDTH / SCREEN_RATIO);
+    public static Color BACKGROUND_COLOR = Color.BLACK;
 
     private boolean gameExit = false;
     private static Game game;
+    public static int timeInSeconds = 0;
+    public static int timer = 0;
 
     public GameController gameController;
 
-    public GameState currentState = GameState.Game;
+    public static GameState currentState = GameState.Game;
 
     public EngineKeyboard keyInput;
     public EngineMouse mouseInput;
 
     public Engine() {
-        keyInput = new EngineKeyboard();
-        mouseInput = new EngineMouse();
-
         gameController = new GameController();
         game = new Game(this);
+
+        keyInput = new EngineKeyboard(gameController);
+        mouseInput = new EngineMouse(gameController);
+
         addKeyListener(keyInput);
         addMouseListener(mouseInput);
         System.out.println("Game initialized");
@@ -79,20 +86,21 @@ public class Engine extends Canvas {
             double delta = updateLength / ((double) OPTIMAL_TIME);
             lastFPStime += updateLength;
 
-            while (delta >= 1) {
+//            while (delta >= 1) {
                 update();
-                System.out.println("Updating");
-                delta--;
-            }
+//                System.out.println("Updating");
+//                delta--;
+//            }
             if (!gameExit) {
                 render();
-                System.out.println("Rendering");
+//                System.out.println("Rendering");
             }
 
             fps++;
 
             if (lastFPStime >= 1000000000) // if a second has passed
             {
+                timeInSeconds++;
                 System.out.println("FPS: " + fps);
                 lastFPStime = 0;
                 fps = 0;
@@ -106,10 +114,13 @@ public class Engine extends Canvas {
         new Engine();
     }
 
-    // Functions to adjust game properties
+    /***************************************
+     * Functions To Adjust Game Properties *
+     ***************************************/
 
-    public void setWIDTH(int width) {
+    public static void setWIDTH(int width) {
         WIDTH = width;
+        updateHeight();
     }
 
     // HEIGHT = WIDTH / SCREEN_RATIO, that is WIDTH * numerator / denominator
@@ -118,15 +129,15 @@ public class Engine extends Canvas {
         updateHeight();
     }
 
-    private void updateHeight() {
+    private static void updateHeight() {
         HEIGHT = (int) (WIDTH / SCREEN_RATIO);
     }
 
-    public void setTITLE(String title) {
+    public static void setTITLE(String title) {
         TITLE = title;
     }
 
-    public void setBACKGROUND_COLOR(Color color) {
+    public static void setBACKGROUND_COLOR(Color color) {
         BACKGROUND_COLOR = color;
     }
 
@@ -134,25 +145,32 @@ public class Engine extends Canvas {
         BACKGROUND_COLOR = new Color(red, green, blue);
     }
 
-    public int perc(int parameter, double percentage) {
+    public static int perc(int parameter, double percentage) {
         return  (int) (parameter * percentage/ 100.0);
     }
 
-    public int percWidth(double percentage) {
+    public static int percWidth(double percentage) {
         return perc(WIDTH, percentage);
     }
 
-    public int percHeight(double percentage) {
+    public static int percHeight(double percentage) {
         return perc(HEIGHT, percentage);
     }
 
-    // UI Functions
-    public void addButton(int x, int y, int size, String text, GameState state) {
-        gameController.addButton(x, y, size, text, state);
+    /****************
+     * UI Functions *
+     ****************/
+
+    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState) {
+        gameController.addButton(x, y, size, text, renderState, targetState);
     }
 
-    public void addButton(int x, int y, int size, String text, GameState state, Font font, Color borderColor, Color textColor) {
-        gameController.addButton(x, y, size, text, state, font, borderColor, textColor);
+    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState, Color borderColor, Color textColor) {
+        gameController.addButton(x, y, size, text, renderState, targetState, borderColor, textColor);
+    }
+
+    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState, Color borderColor, Color textColor, Font font) {
+        gameController.addButton(x, y, size, text, renderState, targetState, borderColor, textColor, font);
     }
 
     public void addPanel(int x, int y, int width, int height, GameState state) {
@@ -163,8 +181,11 @@ public class Engine extends Canvas {
         gameController.addPanel(x, y, width, height, state, transparency, color);
     }
 
-    // GameState Functions
-    public void setState(GameState state) {
+    /***********************
+     * GameState Functions *
+     ***********************/
+
+    public static void setState(GameState state) {
         currentState = state;
     }
 
@@ -174,5 +195,20 @@ public class Engine extends Canvas {
 
     public void menuState() {
         setState(GameState.Menu);
+    }
+
+    public void pauseState() {
+        setState(GameState.Pause);}
+
+    /*********************
+     * Utility Functions *
+     *********************/
+
+    public static int clamp(int var, int min, int max) {
+        if (var <= min)
+            return min;
+        if (var >= max)
+            return max;
+        else return var;
     }
 }

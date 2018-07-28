@@ -1,30 +1,47 @@
+/*
+ * Do not modify this class
+ * */
+
 import java.awt.*;
 
 public class Button {
     private int x, y, size, width, height;
     private String text;
     private Font font;
-    private GameState state;
+    private GameState renderState, targetSate;
     private Color borderColor, textColor;
 
-
-    public Button(int x, int y, int size, String text, GameState state) {
+    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.text = text;
-        this.state = state;
+        this.renderState = renderState;
+        this.targetSate = targetSate;
         font = new Font("arial", 1, size);
         borderColor = Color.BLUE;
         textColor = Color.RED;
     }
 
-    public Button(int x, int y, int size, String text, GameState state, Font font, Color borderColor, Color textColor) {
+    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, Color borderColor, Color textColor) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.text = text;
-        this.state = state;
+        this.renderState = renderState;
+        this.targetSate = targetSate;
+        font = new Font("arial", 1, size);
+        this.borderColor = borderColor;
+        this.textColor = textColor;
+    }
+
+    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, Color borderColor, Color textColor, Font font) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.text = text;
+        this.renderState = renderState;
+        this.targetSate = targetSate;
         this.font = font;
         this.borderColor = borderColor;
         this.textColor = textColor;
@@ -35,10 +52,10 @@ public class Button {
         width = (g.getFontMetrics().stringWidth(text)) * 3 / 2;
         height = width / 2;
 
-        g.setColor(Color.BLUE);
+        g.setColor(borderColor);
         g.drawRect(x, y, width, height);
 
-        g.setColor(Color.RED);
+        g.setColor(textColor);
         g.drawString(text, x + width / 6, y + height * 2 / 3);
     }
 
@@ -46,8 +63,12 @@ public class Button {
         return (mx >= x && mx <= x + width && my >= y && my <= y + height);
     }
 
-    public GameState getState() {
-        return state;
+    public GameState getRenderState() {
+        return renderState;
+    }
+
+    public GameState getTargetSate() {
+        return targetSate;
     }
 
     public void setText(String text) {

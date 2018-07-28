@@ -1,3 +1,7 @@
+/*
+ * Do not modify this class
+ * */
+
 import javax.swing.*;
 import java.awt.*;
 

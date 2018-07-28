@@ -15,20 +15,36 @@ public class UIHandler {
 
     public void render(Graphics g) {
         for (MenuItem menuItem: menuItems) {
-            menuItem.render(g);
+            if (Engine.currentState == menuItem.state) {
+                menuItem.render(g);
+            }
         }
 
         for (Button button: buttons) {
-            button.render(g);
+            if (Engine.currentState == button.getRenderState()) {
+                button.render(g);
+            }
         }
     }
 
-    public void addButton(int x, int y, int size, String text, GameState state) {
-        buttons.add(new Button(x, y, size, text, state));
+    public void checkOverlap(int mx, int my) {
+        for (Button button: buttons) {
+            if (button.getRenderState() == Engine.currentState)
+                if (button.mouseOverlap(mx, my))
+                    Engine.setState(button.getTargetSate());
+        }
     }
 
-    public void addButton(int x, int y, int size, String text, GameState state, Font font, Color borderColor, Color textColor) {
-        buttons.add(new Button(x, y, size, text, state, font, borderColor, textColor));
+    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState) {
+        buttons.add(new Button(x, y, size, text, renderState, targetState));
+    }
+
+    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState, Color borderColor, Color textColor) {
+        buttons.add(new Button(x, y, size, text, renderState, targetState, borderColor, textColor));
+    }
+
+    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState, Color borderColor, Color textColor, Font font) {
+        buttons.add(new Button(x, y, size, text, renderState, targetState, borderColor, textColor, font));
     }
 
     public void addPanel(int x, int y, int width, int height, GameState state) {

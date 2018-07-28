@@ -6,10 +6,20 @@ public class Game extends Canvas {
 
     private Engine engine;
 
+    /******************
+     * User variables *
+     ******************/
+
     public Game(Engine engine) {
         initializeEngine(engine);
 
-        // Game Code Below
+        /******************
+         * Window Setting *
+         ******************/
+
+        /*************
+         * Game Code *
+         *************/
 
 
     }

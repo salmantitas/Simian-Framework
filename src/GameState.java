@@ -1,5 +1,8 @@
 public enum GameState {
     Game,
     Menu,
-    Pause
+    Pause,
+    GameOver,
+    Highscore,
+    Quit
 }

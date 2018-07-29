@@ -1,7 +1,3 @@
-/*
- * Do not modify this class
- * */
-
 import java.awt.*;
 
 public class Button {
@@ -9,7 +5,8 @@ public class Button {
     private String text;
     private Font font;
     private GameState renderState, targetSate;
-    private Color borderColor, textColor;
+    private Color backColor, textColor;
+
 
     public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate) {
         this.x = x;
@@ -19,11 +16,11 @@ public class Button {
         this.renderState = renderState;
         this.targetSate = targetSate;
         font = new Font("arial", 1, size);
-        borderColor = Color.BLUE;
+        backColor = Color.BLUE;
         textColor = Color.RED;
     }
 
-    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, Color borderColor, Color textColor) {
+    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, Color backColor, Color textColor) {
         this.x = x;
         this.y = y;
         this.size = size;
@@ -31,11 +28,11 @@ public class Button {
         this.renderState = renderState;
         this.targetSate = targetSate;
         font = new Font("arial", 1, size);
-        this.borderColor = borderColor;
+        this.backColor = backColor;
         this.textColor = textColor;
     }
 
-    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, Color borderColor, Color textColor, Font font) {
+    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, Color backColor, Color textColor, Font font) {
         this.x = x;
         this.y = y;
         this.size = size;
@@ -43,7 +40,7 @@ public class Button {
         this.renderState = renderState;
         this.targetSate = targetSate;
         this.font = font;
-        this.borderColor = borderColor;
+        this.backColor = backColor;
         this.textColor = textColor;
     }
 
@@ -52,7 +49,7 @@ public class Button {
         width = (g.getFontMetrics().stringWidth(text)) * 3 / 2;
         height = width / 2;
 
-        g.setColor(borderColor);
+        g.setColor(backColor);
         g.drawRect(x, y, width, height);
 
         g.setColor(textColor);

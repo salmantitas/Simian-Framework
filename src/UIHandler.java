@@ -7,6 +7,7 @@ public class UIHandler {
 
     public UIHandler() {
 
+
     }
 
 //    public void update() {
@@ -15,15 +16,13 @@ public class UIHandler {
 
     public void render(Graphics g) {
         for (MenuItem menuItem: menuItems) {
-            if (Engine.currentState == menuItem.state) {
+            if (menuItem.stateIs(Engine.currentState))
                 menuItem.render(g);
-            }
         }
 
         for (Button button: buttons) {
-            if (Engine.currentState == button.getRenderState()) {
+            if (Engine.currentState == button.getRenderState())
                 button.render(g);
-            }
         }
     }
 
@@ -51,7 +50,19 @@ public class UIHandler {
         menuItems.add(new MenuItem(x, y, width, height, state));
     }
 
+    public void addPanel(int x, int y, int width, int height, GameState state, GameState other) {
+        menuItems.add(new MenuItem(x, y, width, height, state, other));
+    }
+
     public void addPanel(int x, int y, int width, int height, GameState state, float transparency, Color color) {
         menuItems.add(new MenuItem(x, y, width, height, state, transparency, color));
+    }
+
+    public void addPanel(int x, int y, int width, int height, GameState state, GameState other, float transparency, Color color) {
+        menuItems.add(new MenuItem(x, y, width, height, state, other, transparency, color));
+    }
+
+    public void addPanel(MenuItem menuItem) {
+        menuItems.add(menuItem);
     }
 }

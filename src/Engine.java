@@ -10,13 +10,13 @@ public class Engine extends Canvas {
     /*
     * By Default:
     * VERSION = 0.1
-    * TITLE = "Euhedral Engine 0.123"
+    * TITLE = "Euhedral Engine 0.14"
     * SCREEN_RATIO = 4.0/3.0
     * WIDTH = 640
     * HEIGHT = 480
     * BACKGROUND_COLOR = Color.BLACK
     */
-    public static double VERSION = 0.13;
+    public static double VERSION = 0.14;
     public static String TITLE = "Euhedral Engine " + VERSION;
     public static double SCREEN_RATIO = 4.0/3.0;
     public static int WIDTH = 640;
@@ -24,7 +24,6 @@ public class Engine extends Canvas {
     public static Color BACKGROUND_COLOR = Color.BLACK;
 
     private boolean gameExit = false;
-    private static Game game;
     public static int timeInSeconds = 0;
     public static int timer = 0;
 
@@ -37,7 +36,6 @@ public class Engine extends Canvas {
 
     public Engine() {
         gameController = new GameController();
-        game = new Game(this);
 
         keyInput = new EngineKeyboard(gameController);
         mouseInput = new EngineMouse(gameController);
@@ -49,7 +47,7 @@ public class Engine extends Canvas {
     }
 
     public void update() {
-        game.update();
+        gameController.update();
     }
 
     public void render() {
@@ -65,7 +63,6 @@ public class Engine extends Canvas {
         g.fillRect(0, 0, WIDTH, WIDTH);
 
         gameController.render(g);
-        game.render(g);
 
         g.dispose();
         bs.show();
@@ -123,10 +120,19 @@ public class Engine extends Canvas {
         updateHeight();
     }
 
+    public static void setHEIGHT(int height) {
+        HEIGHT = height;
+        updateWidth();
+    }
+
     // HEIGHT = WIDTH / SCREEN_RATIO, that is WIDTH * numerator / denominator
     public void setSCREEN_RATIO(double denominator, double numerator) {
         SCREEN_RATIO = (1.0 * denominator) / (1.0 * numerator);
         updateHeight();
+    }
+
+    private static void updateWidth() {
+        WIDTH = (int) (HEIGHT * SCREEN_RATIO);
     }
 
     private static void updateHeight() {
@@ -141,7 +147,7 @@ public class Engine extends Canvas {
         BACKGROUND_COLOR = color;
     }
 
-    public void setBACKGROUND_COLOR(int red, int green, int blue) {
+    public static void setBACKGROUND_COLOR(int red, int green, int blue) {
         BACKGROUND_COLOR = new Color(red, green, blue);
     }
 
@@ -157,9 +163,19 @@ public class Engine extends Canvas {
         return perc(HEIGHT, percentage);
     }
 
-    /****************
+    public static int intAtWidth640(int var) {
+        float factor = 640/var;
+        return (int) (WIDTH/factor);
+    }
+
+    public static float floatAtWidth640(int var) {
+        float factor = 640/var;
+        return (float) (WIDTH/factor);
+    }
+
+/*    *//****************
      * UI Functions *
-     ****************/
+     ****************//*
 
     public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState) {
         gameController.addButton(x, y, size, text, renderState, targetState);
@@ -179,7 +195,7 @@ public class Engine extends Canvas {
 
     public void addPanel(int x, int y, int width, int height, GameState state, float transparency, Color color) {
         gameController.addPanel(x, y, width, height, state, transparency, color);
-    }
+    }*/
 
     /***********************
      * GameState Functions *

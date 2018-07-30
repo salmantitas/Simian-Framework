@@ -1,91 +1,62 @@
 import java.awt.*;
 import java.util.LinkedList;
 
-public class MenuItem {
+public abstract class MenuItem {
 
-    int x, y, width, height;
-    float transparency;
-    Color color;
-    GameState state;
-    LinkedList<GameState> otherStates = new LinkedList<>();
+    protected int x, y, width, height;
+    protected float transparency = 0.7f;
+    protected Color backColor = Color.darkGray;
+    protected GameState renderState;
+    protected LinkedList<GameState> otherStates = new LinkedList<>();
 
-    public MenuItem(int x, int y, int width, int height, GameState state) {
+    public MenuItem(int x, int y, int width, int height, GameState renderState) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.state = state;
-        transparency = 0.7f;
-        color = Color.GRAY;
+        this.renderState = renderState;
     }
 
-    public MenuItem(int x, int y, int width, int height, GameState state, GameState other) {
+    public MenuItem(int x, int y, int width, int height, GameState renderState, float transparency, Color backColor) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.state = state;
-        transparency = 0.7f;
-        color = Color.GRAY;
-        addOtherState(other);
-    }
-
-    public MenuItem(int x, int y, int width, int height, GameState state, float transparency, Color color) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.state = state;
+        this.renderState = renderState;
         this.transparency = transparency;
-        this.color = color;
-//        addPausetoStates();
+        this.backColor = backColor;
     }
 
-    public MenuItem(int x, int y, int width, int height, GameState state, GameState other, float transparency, Color color) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.state = state;
+
+    public abstract void render(Graphics g);
+
+    protected void setBackColor(Color backColor) {
+        this.backColor = backColor;
+    }
+
+    protected void setTransparency(float transparency) {
         this.transparency = transparency;
-        this.color = color;
-        addOtherState(other);
-//        addPausetoStates();
     }
 
-//    private void addPausetoStates() {
-//        otherStates.add(GameState.Pause);
-//    }
-
-    public void render(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setComposite(makeTransparent(transparency));
-
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
-
-        // Ensure that nothing on top of the transparent panel is rendered transparent
-        g2d.setComposite(makeTransparent(1));
+    protected void addOtherState(GameState state) {
+        otherStates.add(state);
     }
 
-    public boolean stateIs(GameState state) {
+    protected boolean stateIs(GameState state) {
         boolean temp;
         if (otherStates.isEmpty())
-            temp = state == this.state;
+            temp = state == this.renderState;
         else {
-            temp = state == this.state;
+            temp = state == this.renderState;
             for (GameState gs: otherStates) {
                 temp = temp || (gs == state);
             }
         }
         return temp;
     }
-    public void addOtherState(GameState state) {
-        otherStates.add(state);
-    }
 
     // Not very sure what's happening here
-    private AlphaComposite makeTransparent(float alpha) {
+    protected AlphaComposite makeTransparent(float alpha) {
         int type = AlphaComposite.SRC_OVER;
         return(AlphaComposite.getInstance(type, alpha));
     }

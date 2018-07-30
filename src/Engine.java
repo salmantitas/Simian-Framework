@@ -16,7 +16,7 @@ public class Engine extends Canvas {
     * HEIGHT = 480
     * BACKGROUND_COLOR = Color.BLACK
     */
-    public static double VERSION = 0.14;
+    public static double VERSION = 0.15;
     public static String TITLE = "Euhedral Engine " + VERSION;
     public static double SCREEN_RATIO = 4.0/3.0;
     public static int WIDTH = 640;
@@ -107,7 +107,7 @@ public class Engine extends Canvas {
     }
 
     public static void main(String[] args) {
-        System.out.println("Euhedral Engine Started");
+        System.out.println("Euhedral Engine " + VERSION + " Started");
         new Engine();
     }
 
@@ -173,30 +173,6 @@ public class Engine extends Canvas {
         return (float) (WIDTH/factor);
     }
 
-/*    *//****************
-     * UI Functions *
-     ****************//*
-
-    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState) {
-        gameController.addButton(x, y, size, text, renderState, targetState);
-    }
-
-    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState, Color borderColor, Color textColor) {
-        gameController.addButton(x, y, size, text, renderState, targetState, borderColor, textColor);
-    }
-
-    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState, Color borderColor, Color textColor, Font font) {
-        gameController.addButton(x, y, size, text, renderState, targetState, borderColor, textColor, font);
-    }
-
-    public void addPanel(int x, int y, int width, int height, GameState state) {
-        gameController.addPanel(x, y, width, height, state);
-    }
-
-    public void addPanel(int x, int y, int width, int height, GameState state, float transparency, Color color) {
-        gameController.addPanel(x, y, width, height, state, transparency, color);
-    }*/
-
     /***********************
      * GameState Functions *
      ***********************/
@@ -205,15 +181,19 @@ public class Engine extends Canvas {
         currentState = state;
     }
 
-    public void gameState() {
+    public static void gameState() {
         setState(GameState.Game);
     }
 
-    public void menuState() {
+    public static void menuState() {
         setState(GameState.Menu);
     }
 
-    public void pauseState() {
+    public static void gameOverState() {
+        setState(GameState.GameOver);
+    }
+
+    public static void pauseState() {
         setState(GameState.Pause);}
 
     /*********************
@@ -226,5 +206,9 @@ public class Engine extends Canvas {
         if (var >= max)
             return max;
         else return var;
+    }
+
+    public static void printTimer() {
+        System.out.println(timer);
     }
 }

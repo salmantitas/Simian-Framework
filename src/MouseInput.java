@@ -13,7 +13,7 @@ public class MouseInput extends MouseAdapter {
     }
 
     public void updatePressed() {
-        gameController.checkOverlap(getMxPressed(), getMyPressed());
+
     }
 
     public void updateReleased() {
@@ -34,5 +34,13 @@ public class MouseInput extends MouseAdapter {
 
     public int getMyReleased() {
         return mouse.getMyReleased();
+    }
+
+    public void checkButtonPressed() {
+        gameController.checkButtonAction(getMxPressed(), getMyPressed());
+    }
+
+    public void checkButtonReleased() {
+        gameController.checkButtonAction(getMxReleased(), getMyReleased());
     }
 }

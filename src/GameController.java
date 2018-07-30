@@ -14,8 +14,12 @@ public class GameController {
 
     // Common game variables
     private int score = 0;
+    private int scoreX = Engine.percWidth(5);
+    private int scoreY = Engine.percHeight(15);
+    private int scoreSize = Engine.percWidth(4);
     private int lives = 3;
-    private int health = 100;
+    private final int healthDef = 100;
+    private int health = healthDef;
     private LinkedList<Integer> highScore = new LinkedList<>();
     private int highScoreNumbers = 5;
     private boolean updateHighScore = false;
@@ -37,13 +41,11 @@ public class GameController {
 
         uiHandler = new UIHandler();
 
-        /******************
-         * Window Setting *
-         ******************/
-
         /*************
          * Game Code *
          *************/
+
+
     }
 
     public void update() {
@@ -57,6 +59,14 @@ public class GameController {
 
         if (Engine.currentState == GameState.Game) {
 
+            boolean endGameCondition = false;
+
+            if (endGameCondition) {
+                Engine.gameOverState();
+                enableHighScoreUpdate();
+                resetGame();
+            }
+
             /*************
              * Game Code *
              *************/
@@ -64,19 +74,6 @@ public class GameController {
     }
 
     public void render(Graphics g) {
-        uiHandler.render(g);
-
-        if (Engine.currentState == GameState.Menu) {
-            drawTitle(g);
-        }
-
-        if (Engine.currentState == GameState.Pause) {
-            drawPause(g);
-        }
-
-        if (Engine.currentState == GameState.GameOver) {
-            drawGameOverScreen(g);
-        }
 
         if (Engine.currentState == GameState.Highscore) {
             drawHighScore(g);
@@ -87,7 +84,15 @@ public class GameController {
             /*************
              * Game Code *
              *************/
+
         }
+
+        /***************
+         * Engine Code *
+         ***************/
+
+        // The UI must be rendered after everything else, to ensure that it is on top
+        uiHandler.render(g);
     }
 
     private void setupHighScore() {
@@ -98,14 +103,16 @@ public class GameController {
 
     public void resetGame() {
 
+        Engine.timer = 0;
+
         /*************
          * Game Code *
          *************/
 
     }
 
-    public void checkOverlap(int mx, int my) {
-        uiHandler.checkOverlap(mx, my);
+    public void checkButtonAction(int mx, int my) {
+        uiHandler.checkButtonAction(mx, my);
     }
 
     private void enableHighScoreUpdate() {
@@ -150,16 +157,17 @@ public class GameController {
         }
     }
 
-    private void drawTitle(Graphics g) {
-        g.setFont(new Font("arial", 1, 200));
-        g.setColor(Color.WHITE);
-        g.drawString(Engine.TITLE, Engine.percWidth(2), Engine.HEIGHT/2);
-    }
-
-    public void drawPause(Graphics g) {
-        g.setFont(new Font("arial", 1, 200));
-        g.setColor(Color.WHITE);
-        g.drawString("PAUSE", Engine.percWidth(20), Engine.HEIGHT/2);
+    private void drawHealth(Graphics g) {
+        int x = Engine.intAtWidth640(10);
+        int y = x/2;
+        int width = Engine.intAtWidth640(2);
+        int height = width*6;
+        Color backColor = Color.lightGray;
+        Color healthColor = Color.GREEN;
+        g.setColor(backColor);
+        g.fillRect(x,y, healthDef * width, height);
+        g.setColor(healthColor);
+        g.fillRect(x,y, health * width, height);
     }
 
     public void drawHighScore(Graphics g) {
@@ -168,44 +176,6 @@ public class GameController {
         for (int i = 0; i < highScoreNumbers; i++) {
             g.drawString("Score " + (i+1) + ": " + highScore.get(i), Engine.percWidth(75), Engine.percHeight( 10 * i + 10));
         }
-    }
-
-    public void drawGameOverScreen(Graphics g) {
-        g.setFont(new Font("arial", 1, 200));
-        g.setColor(Color.WHITE);
-        g.drawString("GAME OVER", Engine.percWidth(2), Engine.HEIGHT/2);
-    }
-
-    /****************
-     * UI Functions *
-     ****************/
-
-    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState) {
-        uiHandler.addButton(x, y, size, text, renderState, targetState);
-    }
-
-    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState, Color borderColor, Color textColor) {
-        uiHandler.addButton(x, y, size, text, renderState, targetState, borderColor, textColor);
-    }
-
-    public void addButton(int x, int y, int size, String text, GameState renderState, GameState targetState, Color borderColor, Color textColor, Font font) {
-        uiHandler.addButton(x, y, size, text, renderState, targetState, borderColor, textColor, font);
-    }
-
-    public void addPanel(int x, int y, int width, int height, GameState state) {
-        uiHandler.addPanel(x, y, width, height, state);
-    }
-
-    public void addPanel(int x, int y, int width, int height, GameState state, GameState other) {
-        uiHandler.addPanel(x, y, width, height, state, other);
-    }
-
-    public void addPanel(int x, int y, int width, int height, GameState state, float transparency, Color color) {
-        uiHandler.addPanel(x, y, width, height, state, transparency, color);
-    }
-
-    public void addPanel(int x, int y, int width, int height, GameState state, GameState other, float transparency, Color color) {
-        uiHandler.addPanel(x, y, width, height, state, other, transparency, color);
     }
 
     /******************

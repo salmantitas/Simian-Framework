@@ -1,6 +1,8 @@
-/*
-* Do not modify
-* */
+package com.euhedral.engine;/*
+ * Do not modify
+ * */
+
+import com.euhedral.game.GameController;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -8,15 +10,15 @@ import java.awt.image.BufferStrategy;
 public class Engine extends Canvas {
 
     /*
-    * By Default:
-    * VERSION = 0.1
-    * TITLE = "Euhedral Engine 0.14"
-    * SCREEN_RATIO = 4.0/3.0
-    * WIDTH = 640
-    * HEIGHT = 480
-    * BACKGROUND_COLOR = Color.BLACK
-    */
-    public static double VERSION = 0.15;
+     * By Default:
+     * VERSION = 0.1
+     * TITLE = "Euhedral com.euhedral.engine.Engine 0.151"
+     * SCREEN_RATIO = 4.0/3.0
+     * WIDTH = 640
+     * HEIGHT = 480
+     * BACKGROUND_COLOR = Color.BLACK
+     */
+    public static double VERSION = 0.151;
     public static String TITLE = "Euhedral Engine " + VERSION;
     public static double SCREEN_RATIO = 4.0/3.0;
     public static int WIDTH = 640;
@@ -42,6 +44,7 @@ public class Engine extends Canvas {
 
         addKeyListener(keyInput);
         addMouseListener(mouseInput);
+        addMouseMotionListener(mouseInput);
         System.out.println("Game initialized");
         new Window(WIDTH, HEIGHT, TITLE, this);
     }
@@ -84,7 +87,7 @@ public class Engine extends Canvas {
             lastFPStime += updateLength;
 
 //            while (delta >= 1) {
-                update();
+            update();
 //                System.out.println("Updating");
 //                delta--;
 //            }
@@ -107,7 +110,7 @@ public class Engine extends Canvas {
     }
 
     public static void main(String[] args) {
-        System.out.println("Euhedral Engine " + VERSION + " Started");
+        System.out.println("Euhedral com.euhedral.engine.Engine " + VERSION + " Started");
         new Engine();
     }
 
@@ -174,7 +177,7 @@ public class Engine extends Canvas {
     }
 
     /***********************
-     * GameState Functions *
+     * com.euhedral.engine.GameState Functions *
      ***********************/
 
     public static void setState(GameState state) {
@@ -211,4 +214,11 @@ public class Engine extends Canvas {
     public static void printTimer() {
         System.out.println(timer);
     }
+
+    // Does not work because Integers aren't objects
+//    public static void swapInt(int x, int y) {
+//        int temp = x;
+//        x = y;
+//        y = temp;
+//    }
 }

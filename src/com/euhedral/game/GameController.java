@@ -1,3 +1,8 @@
+package com.euhedral.game;
+
+import com.euhedral.engine.Engine;
+import com.euhedral.engine.GameState;
+
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.Random;
@@ -6,7 +11,7 @@ public class GameController {
     private UIHandler uiHandler;
     private Random r = new Random();
 
-    // Manually set the Window information here
+    // Manually set the com.euhedral.engine.Window information here
     private int gameWidth = Engine.WIDTH;
     private int gameHeight = Engine.HEIGHT;
     private String gameTitle = Engine.TITLE;

@@ -4,6 +4,7 @@ import com.euhedral.engine.Engine;
 import com.euhedral.engine.GameState;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -113,6 +114,22 @@ public class GameController {
         /*************
          * Game Code *
          *************/
+
+    }
+
+    public void keyPressed(int key) {
+        /*************
+         * Game Code *
+         *************/
+
+
+    }
+
+    public void keyReleased(int key) {
+        /*************
+         * Game Code *
+         *************/
+
 
     }
 

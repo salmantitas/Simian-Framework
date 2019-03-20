@@ -17,18 +17,14 @@ public class KeyInput extends KeyAdapter{
         this.gameController = gameController;
         keyboard = engineKeyboard;
 
+        legalKeysPress = new ArrayList<>();
+        legalKeysRelease = new ArrayList<>();
+
         /*************
          * Game Code *
          *************/
 
-        legalKeysPress = new ArrayList<>();
-        legalKeysPress.add(KeyEvent.VK_D);
-        legalKeysPress.add(KeyEvent.VK_A);
-        legalKeysPress.add(KeyEvent.VK_W);
 
-        legalKeysRelease = new ArrayList<>();
-        legalKeysRelease.add(KeyEvent.VK_D);
-        legalKeysRelease.add(KeyEvent.VK_A);
     }
 
     public void updatePressed() {

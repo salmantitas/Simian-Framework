@@ -15,7 +15,7 @@ public class UIHandler {
 
     // Common game variables
 
-    int titleX = Engine.percWidth(2);
+    int titleX = Engine.percWidth(10);
     int titleY = Engine.percHeight(20);
     int titleSize = Engine.percWidth(11.5);
     Color titleColor = Color.BLACK;
@@ -32,6 +32,8 @@ public class UIHandler {
         // Game Backdrop
 
         // Main Menu
+
+
 
         // In-Game
 
@@ -70,8 +72,8 @@ public class UIHandler {
     }
 
     public void checkButtonAction(int mx, int my) {
-        for (com.euhedral.engine.Button button: buttons) {
-            if (button.getRenderState() == Engine.currentState)
+        for (Button button: buttons) {
+            if (button.stateIs(Engine.currentState))
                 if (button.mouseOverlap(mx, my))
                     Engine.setState(button.getTargetSate());
         }
@@ -84,7 +86,7 @@ public class UIHandler {
     private void drawTitle(Graphics g) {
         g.setFont(new Font("arial", 1, 200));
         g.setColor(Color.WHITE);
-        g.drawString(Engine.TITLE, Engine.percWidth(2), titleY);
+        g.drawString(Engine.TITLE, titleX, titleY);
     }
 
     public void drawPause(Graphics g) {

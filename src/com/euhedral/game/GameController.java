@@ -162,9 +162,12 @@ public class GameController {
      ***************************/
 
     private void drawScore(Graphics g) {
+        int posX = Engine.percWidth(1);
+        int posY = Engine.percHeight(5);
+
         g.setFont(new Font("arial", 1, 20));
         g.setColor(Color.WHITE);
-        g.drawString("Score: " + score, 300, 300);
+        g.drawString("Score: " + score, posX, posY);
     }
 
     private void drawLives(Graphics g) {

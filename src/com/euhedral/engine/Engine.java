@@ -18,7 +18,7 @@ public class Engine extends Canvas {
      * HEIGHT = 480
      * BACKGROUND_COLOR = Color.BLACK
      */
-    public static double VERSION = 0.161;
+    public static double VERSION = 0.163;
     public static String TITLE = "Euhedral Engine " + VERSION;
     public static double SCREEN_RATIO = 4.0/3.0;
     public static int WIDTH = 640;
@@ -89,7 +89,7 @@ public class Engine extends Canvas {
     }
 
     /*
-     * Game Loops created from youtube tutorials by Majoolwip: https://youtu.be/4iPEjFUZNsw
+     * Game Loop created from youtube tutorials by Majoolwip: https://youtu.be/4iPEjFUZNsw
      * Updates the game every second
      * */
     public void gameLoop() {

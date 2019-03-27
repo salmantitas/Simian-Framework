@@ -1,6 +1,8 @@
-/*
+package com.euhedral.engine;/*
  * Do not modify
  * */
+
+import com.euhedral.engine.Engine;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -104,6 +106,7 @@ public class Button {
         this.transparency = transparency;
     }
 
+    // Checks whether the state is the same as any of the allowed render states
     public boolean stateIs(GameState state) {
         boolean temp;
         if (otherStates.isEmpty())

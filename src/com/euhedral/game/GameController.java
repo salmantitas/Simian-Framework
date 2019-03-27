@@ -1,4 +1,10 @@
+package com.euhedral.game;
+
+import com.euhedral.engine.Engine;
+import com.euhedral.engine.GameState;
+
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -6,7 +12,7 @@ public class GameController {
     private UIHandler uiHandler;
     private Random r = new Random();
 
-    // Manually set the Window information here
+    // Manually set the com.euhedral.engine.Window information here
     private int gameWidth = Engine.WIDTH;
     private int gameHeight = Engine.HEIGHT;
     private String gameTitle = Engine.TITLE;
@@ -111,6 +117,24 @@ public class GameController {
 
     }
 
+    public void keyPressed(int key) {
+        /*************
+         * Game Code *
+         *************/
+
+
+
+
+    }
+
+    public void keyReleased(int key) {
+        /*************
+         * Game Code *
+         *************/
+
+
+    }
+
     public void checkButtonAction(int mx, int my) {
         uiHandler.checkButtonAction(mx, my);
     }
@@ -138,9 +162,12 @@ public class GameController {
      ***************************/
 
     private void drawScore(Graphics g) {
+        int posX = Engine.percWidth(1);
+        int posY = Engine.percHeight(5);
+
         g.setFont(new Font("arial", 1, 20));
         g.setColor(Color.WHITE);
-        g.drawString("Score: " + score, 300, 300);
+        g.drawString("Score: " + score, posX, posY);
     }
 
     private void drawLives(Graphics g) {

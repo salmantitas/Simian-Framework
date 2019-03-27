@@ -1,7 +1,9 @@
-import java.awt.*;
-import java.awt.event.KeyEvent;
+package com.euhedral.game;
+
+import com.euhedral.engine.EngineMouse;
+import com.euhedral.game.GameController;
+
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MouseInput extends MouseAdapter {
     private GameController gameController;
@@ -18,6 +20,18 @@ public class MouseInput extends MouseAdapter {
 
     public void updateReleased() {
 
+    }
+
+    public void updateMoved() {
+
+    }
+
+    public int getMx() {
+        return mouse.getMx();
+    }
+
+    public int getMy() {
+        return mouse.getMy();
     }
 
     public int getMxPressed() {

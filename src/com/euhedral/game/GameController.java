@@ -1,10 +1,12 @@
 package com.euhedral.game;
 
+import com.euhedral.engine.BufferedImageLoader;
 import com.euhedral.engine.Engine;
 import com.euhedral.engine.GameState;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -18,7 +20,7 @@ public class GameController {
     private String gameTitle = Engine.TITLE;
     private Color gameBackground = Engine.BACKGROUND_COLOR;
 
-    // Common game variables
+    // Common game variables -- Comment out whichever is unnecessary
     private int score = 0;
     private int scoreX = Engine.percWidth(5);
     private int scoreY = Engine.percHeight(15);
@@ -29,6 +31,20 @@ public class GameController {
     private LinkedList<Integer> highScore = new LinkedList<>();
     private int highScoreNumbers = 5;
     private boolean updateHighScore = false;
+
+    private Player player;
+    private Camera camera;
+    private LinkedList<GameObject> gameObjects = new LinkedList<>();
+
+    private BufferedImageLoader loader;
+
+    // Level Generation
+
+    private LevelGenerator levelGenerator;
+
+    // Levels
+
+    private BufferedImage level1;
 
     /******************
      * User variables *
@@ -47,11 +63,10 @@ public class GameController {
 
         uiHandler = new UIHandler();
 
-        /*************
-         * Game Code *
-         *************/
-
-
+        initializeGame();
+        initializeGraphics();
+        initializeAnimations();
+        initializeLevel();
     }
 
     public void update() {
@@ -101,30 +116,42 @@ public class GameController {
         uiHandler.render(g);
     }
 
-    private void setupHighScore() {
-        for (int i = 0; i < highScoreNumbers; i++) {
-            highScore.add(0);
-        }
-    }
+    /*************************
+     * Initializer Functions *
+     *************************/
 
-    public void resetGame() {
-
-        Engine.timer = 0;
-
+    private void initializeGame() {
         /*************
          * Game Code *
          *************/
-
     }
+
+    private void initializeGraphics() {
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    private void initializeAnimations() {
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    private void initializeLevel() {
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    /************************
+     * User Input Functions *
+     ************************/
 
     public void keyPressed(int key) {
         /*************
          * Game Code *
          *************/
-
-
-
-
     }
 
     public void keyReleased(int key) {
@@ -135,8 +162,27 @@ public class GameController {
 
     }
 
-    public void checkButtonAction(int mx, int my) {
+    public void mousePressed(int mx, int my) {
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    public void mouseReleased(int mx, int my) {
+        /*************
+         * Game Code *
+         *************/
         uiHandler.checkButtonAction(mx, my);
+    }
+
+    /***************************
+     * Game Managing Functions *
+     ***************************/
+
+    private void setupHighScore() {
+        for (int i = 0; i < highScoreNumbers; i++) {
+            highScore.add(0);
+        }
     }
 
     private void enableHighScoreUpdate() {
@@ -154,6 +200,50 @@ public class GameController {
             }
             highScore.add(toAddIndex, score);
             updateHighScore = false;
+        }
+    }
+
+    public void resetGame() {
+
+        Engine.timer = 0;
+
+        /*************
+         * Game Code *
+         *************/
+
+    }
+
+    /*********************************
+     * Game Object Handler Functions *
+     ******************-**************/
+
+    public void addObject(GameObject object) {
+        gameObjects.add(object);
+
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    public void removeObject(GameObject object) {
+        gameObjects.remove(object);
+
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    private void updateObjects() {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObject object = gameObjects.get(i);
+            object.update();
+        }
+    }
+
+    private void renderObjects(Graphics g) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObject object = gameObjects.get(i);
+            object.render(g);
         }
     }
 

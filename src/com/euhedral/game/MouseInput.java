@@ -15,11 +15,11 @@ public class MouseInput extends MouseAdapter {
     }
 
     public void updatePressed() {
-
+        gameController.mousePressed(getMxPressed(), getMyPressed());
     }
 
     public void updateReleased() {
-
+        gameController.mouseReleased(getMxReleased(), getMyReleased());
     }
 
     public void updateMoved() {
@@ -51,10 +51,10 @@ public class MouseInput extends MouseAdapter {
     }
 
     public void checkButtonPressed() {
-        gameController.checkButtonAction(getMxPressed(), getMyPressed());
+        gameController.mouseReleased(getMxPressed(), getMyPressed());
     }
 
     public void checkButtonReleased() {
-        gameController.checkButtonAction(getMxReleased(), getMyReleased());
+        gameController.mouseReleased(getMxReleased(), getMyReleased());
     }
 }

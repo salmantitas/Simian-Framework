@@ -1,13 +1,14 @@
 package com.euhedral.game;
 
+import com.euhedral.engine.Animation;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
 
-    protected Color color;
-    // protected Texture tex;
-
-    protected float x, y, width, height;
+    protected float x, y;
+    protected int width, height;
     protected ObjectID id;
     protected float velX = 0, velY = 0; // sets the initial velocities to 0, so the object is not moving unless stated otherwise.
 
@@ -15,15 +16,75 @@ public abstract class GameObject {
     protected float gravity = 1f, terminalVel;
     protected boolean gravityAffected = false, jumping = false; // every object is initialized to be not jumping or affected by gravity
 
+    protected Color color;
+    protected BufferedImage image;
+    protected BufferedImage images[];
+
+    protected Animation anim;
+    protected int animationSpeed = 3;
+
     public GameObject(float x, float y, ObjectID id) {
         this.x = x;
         this.y = y;
         this.id = id;
+
+        initialize();
+    }
+
+    public GameObject(float x, float y, BufferedImage image, ObjectID id) {
+        this.x = x;
+        this.y = y;
+        this.id = id;
+        this.image = image;
+
+        initialize();
+    }
+
+    public GameObject(float x, float y, BufferedImage[] images, ObjectID id) {
+        this.x = x;
+        this.y = y;
+        this.id = id;
+        this.images = images;
+
+        initialize();
     }
 
     public abstract void update();
 
     public abstract void render(Graphics g);
+
+    protected void drawDefault(Graphics g) {
+        if (images != null) {
+            drawAnimation(g);
+        }
+        else if (image != null) {
+            g.drawImage(image, (int) x, (int) y, null);
+        }
+        else {
+            setColor(g);
+            drawRect(g);
+        }
+    }
+    protected void initialize() {}
+
+    protected void drawAnimation(Graphics g) {
+
+    }
+
+    protected void renderBounds(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        Color boundColor = Color.green;
+
+//        g.setColor(Color.white);
+//        g2d.draw(getBounds());
+
+        g.setColor(boundColor);
+        g2d.draw(getBoundsTop());
+        g2d.draw(getBoundsBottom());
+        g2d.draw(getBoundsLeft());
+        g2d.draw(getBoundsRight());
+    }
 
     public float getX() {
         return x;
@@ -41,19 +102,19 @@ public abstract class GameObject {
         this.y = y;
     }
 
-    public float getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public void setWidth(float width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
-    public float getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
@@ -100,4 +161,42 @@ public abstract class GameObject {
     public Rectangle getBounds() {
         return new Rectangle((int) x, (int) y, (int) width, (int) height);
     }
+
+    public Rectangle getBoundsTop() {
+        return new Rectangle((int) (x + 0.2*width), (int) y,  (int) (0.6* width),  height/4);
+    }
+
+    public Rectangle getBoundsBottom() {
+        return new Rectangle((int) (x + 0.2*width), (int) y + 3*height/4,  (int) (0.6* width),  height/4);
+    }
+
+    public Rectangle getBoundsLeft() {
+        return new Rectangle((int) x, (int) (y + 0.35*height),  width/4,  (int) (height * 0.3));
+    }
+
+    public Rectangle getBoundsRight() {
+        return new Rectangle((int) x + 3*width/4, (int) (y + 0.35*height),  width/4,  (int) (height * 0.3));
+    }
+
+    protected void setColor(Graphics g) {
+        g.setColor(color);
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    protected void drawImage(Graphics g, BufferedImage image) {
+        g.drawImage(image, (int) x, (int) y, null);
+    }
+
+    protected void drawRect(Graphics g) {
+        g.fillRect((int) x, (int) y, width, height);
+    }
+
+
 }

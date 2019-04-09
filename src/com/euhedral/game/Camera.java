@@ -13,9 +13,8 @@ public class Camera {
     }
 
     public void update(GameObject gameObject) {
-
-        x = - gameObject.getX() + Engine.WIDTH/2;
-        y = - gameObject.getY() + Engine.HEIGHT/2;
+        x = gameObject.getX() - Engine.WIDTH/2;
+        y = gameObject.getY() - Engine.HEIGHT/2;
     }
 
     public float getX() {

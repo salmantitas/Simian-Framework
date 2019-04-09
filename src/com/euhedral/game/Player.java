@@ -3,6 +3,7 @@ package com.euhedral.game;
 import com.euhedral.engine.Engine;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Player extends GameObject {
 
@@ -10,11 +11,18 @@ public class Player extends GameObject {
 
     public Player(float x, float y) {
         super(x, y, ObjectID.Player);
-
-        initialize();
     }
 
-    private void initialize() {
+    public Player(float x, float y, BufferedImage image) {
+        super(x, y, image, ObjectID.Player);
+    }
+
+    public Player(float x, float y, BufferedImage[] images) {
+        super(x, y, images, ObjectID.Player);
+    }
+
+    @Override
+    public void initialize() {
         /*************
          * Game Code *
          *************/
@@ -28,6 +36,11 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics g) {
+
+    }
+
+    @Override
+    public void drawAnimation(Graphics g) {
 
     }
 

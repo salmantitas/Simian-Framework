@@ -2,10 +2,9 @@ package com.euhedral.engine;/*
  * Do not modify
  * */
 
-import com.euhedral.game.GameController;
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import com.euhedral.game.GameController;
 
 public class Engine extends Canvas {
 

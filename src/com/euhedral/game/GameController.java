@@ -2,11 +2,10 @@ package com.euhedral.game;
 
 import com.euhedral.engine.BufferedImageLoader;
 import com.euhedral.engine.Engine;
+import com.euhedral.engine.Entity;
 import com.euhedral.engine.GameState;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -14,37 +13,65 @@ public class GameController {
     private UIHandler uiHandler;
     private Random r = new Random();
 
-    // Manually set the com.euhedral.engine.Window information here
+    /********************************************
+     * Window Settings - Manually Configurable *
+     *******************************************/
+
     private int gameWidth = Engine.WIDTH;
+    private double gameRatio = 4/3;
     private int gameHeight = Engine.HEIGHT;
     private String gameTitle = Engine.TITLE;
     private Color gameBackground = Engine.BACKGROUND_COLOR;
 
-    // Common game variables -- Comment out whichever is unnecessary
+    /****************************************
+     * Common Game Variables                *
+     * Comment Out Whichever is Unnecessary *
+     ****************************************/
+
+    // Score
     private int score = 0;
     private int scoreX = Engine.percWidth(5);
     private int scoreY = Engine.percHeight(15);
     private int scoreSize = Engine.percWidth(4);
+
+    // Vitality
     private int lives = 3;
-    private final int healthDef = 100;
-    private int health = healthDef;
+
+    private int healthX = Engine.percWidth(2.5);
+    private int healthY = 5 * healthX;
+    private final int healthDefault = 100;
+    private int health = healthDefault;
+
+    // Power
+    private int powerX = Engine.percWidth(37);
+    private int powerY = scoreY;
+    private int powerSize = scoreSize;
+    private final int maxPower = 5;
+    private int power = 1;
+
+    // High Score
     private LinkedList<Integer> highScore = new LinkedList<>();
     private int highScoreNumbers = 5;
     private boolean updateHighScore = false;
 
+    // Objects
     private Player player;
-    private Camera camera;
-    private LinkedList<GameObject> gameObjects = new LinkedList<>();
+    private LinkedList<Entity> entities = new LinkedList<>();
 
+    // Camera
+    private Camera camera;
+    int offsetHorizontal;
+    int offsetVertical;
+
+    // Graphics
     private BufferedImageLoader loader;
 
     // Level Generation
-
     private LevelGenerator levelGenerator;
 
     // Levels
-
-    private BufferedImage level1;
+    private int levelWidth, levelHeight;
+    private boolean loadMission;
 
     /******************
      * User variables *
@@ -57,63 +84,14 @@ public class GameController {
          ******************/
         Engine.setTITLE(gameTitle);
         Engine.setWIDTH(gameWidth);
+        Engine.setRatio(gameRatio);
         Engine.setBACKGROUND_COLOR(gameBackground);
-
         gameHeight = Engine.HEIGHT;
-
         uiHandler = new UIHandler();
-
         initializeGame();
         initializeGraphics();
         initializeAnimations();
         initializeLevel();
-    }
-
-    public void update() {
-        Engine.timer++;
-
-        if (Engine.currentState == GameState.Quit)
-            System.exit(1);
-
-        if (Engine.currentState != GameState.Pause && Engine.currentState != GameState.Game)
-            resetGame();
-
-        if (Engine.currentState == GameState.Game) {
-
-            boolean endGameCondition = false;
-
-            if (endGameCondition) {
-                Engine.gameOverState();
-                enableHighScoreUpdate();
-                resetGame();
-            }
-
-            /*************
-             * Game Code *
-             *************/
-        }
-    }
-
-    public void render(Graphics g) {
-
-        if (Engine.currentState == GameState.Highscore) {
-            drawHighScore(g);
-        }
-
-        if (Engine.currentState == GameState.Game || Engine.currentState == GameState.Pause || Engine.currentState == GameState.GameOver) {
-
-            /*************
-             * Game Code *
-             *************/
-
-        }
-
-        /***************
-         * Engine Code *
-         ***************/
-
-        // The UI must be rendered after everything else, to ensure that it is on top
-        uiHandler.render(g);
     }
 
     /*************************
@@ -144,9 +122,133 @@ public class GameController {
          *************/
     }
 
+    public void update() {
+        //        System.out.println(Engine.currentState);
+        Engine.timer++;
+
+        if (Engine.currentState == GameState.Quit)
+            Engine.stop();
+
+        if (Engine.currentState != GameState.Pause && Engine.currentState != GameState.Game || Engine.currentState != GameState.Transition)
+            resetGame();
+
+        if (Engine.currentState == GameState.Transition) {
+            /*************
+             * Game Code *
+             *************/
+        }
+
+        if (Engine.currentState == GameState.Game) {
+            loadMission = false;
+            boolean endGameCondition = false;
+
+            if (endGameCondition) {
+                Engine.gameOverState();
+                enableHighScoreUpdate();
+                resetGame();
+            }
+
+            /*************
+             * Game Code *
+             *************/
+        }
+    }
+
+    public void render(Graphics g) {
+
+        if (Engine.currentState == GameState.Highscore) {
+            drawHighScore(g);
+        }
+
+        if (Engine.currentState == GameState.Transition) {
+            /*************
+             * Game Code *
+             *************/
+
+        }
+
+        if (Engine.currentState == GameState.Game || Engine.currentState == GameState.Pause || Engine.currentState == GameState.GameOver) {
+
+//            renderInCamera(g);
+
+            /*************
+             * Game Code *
+             *************/
+
+
+        }
+
+        /***************
+         * Engine Code *
+         ***************/
+
+        // The UI must be rendered after everything else, to ensure that it is on top
+        uiHandler.render(g);
+    }
+
+    private void renderInCamera(Graphics g) {
+        /*****************
+         * Engine Conde *
+         *****************/
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Camera start
+        g2d.translate(camera.getX(), camera.getY());
+
+        /*************
+         * Game Code *
+         *************/
+
+        /*****************
+         * Engine Conde *
+         *****************/
+
+        // Camera end
+        g2d.translate(-camera.getX(), -camera.getY());
+
+    }
+
     /************************
      * User Input Functions *
      ************************/
+
+    public void mouseMoved(int mx, int my) {
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    public void mouseDragged(int mx, int my) {
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    public void mousePressedAt(int mx, int my) {
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    public void mouseReleasedAt(int mx, int my) {
+        /*************
+         * Game Code *
+         *************/
+        checkButtonAction(mx, my);
+    }
+
+    public void mouseButtonPressed(int mouse) {
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    public void mouseButtonReleased(int mouse) {
+        /*************
+         * Game Code *
+         *************/
+    }
 
     public void keyPressed(int key) {
         /*************
@@ -158,38 +260,37 @@ public class GameController {
         /*************
          * Game Code *
          *************/
-
-
-    }
-
-    public void mousePressed(int mx, int my) {
-        /*************
-         * Game Code *
-         *************/
-    }
-
-    public void mouseReleased(int mx, int my) {
-        /*************
-         * Game Code *
-         *************/
-        uiHandler.checkButtonAction(mx, my);
     }
 
     /***************************
      * Game Managing Functions *
      ***************************/
 
+    // High Score
+
     private void setupHighScore() {
+        /***************
+         * Engine Code *
+         ***************/
+
         for (int i = 0; i < highScoreNumbers; i++) {
             highScore.add(0);
         }
     }
 
     private void enableHighScoreUpdate() {
+        /***************
+         * Engine Code *
+         ***************/
+
         updateHighScore = true;
     }
 
     private void updateHighScore() {
+        /***************
+         * Engine Code *
+         ***************/
+
         if (updateHighScore) {
             int toAddIndex = 0;
             for (int hs: highScore) {
@@ -204,8 +305,14 @@ public class GameController {
     }
 
     public void resetGame() {
+        /***************
+         * Engine Code *
+         ***************/
 
         Engine.timer = 0;
+        score = 0;
+        power = 1;
+        health = healthDefault;
 
         /*************
          * Game Code *
@@ -213,37 +320,65 @@ public class GameController {
 
     }
 
-    /*********************************
-     * Game Object Handler Functions *
-     ******************-**************/
+    public void checkButtonAction(int mx, int my) {
+        /***************
+         * Engine Code *
+         ***************/
 
-    public void addObject(GameObject object) {
-        gameObjects.add(object);
-
-        /*************
-         * Game Code *
-         *************/
+        uiHandler.checkButtonAction(mx, my);
+        performAction();
     }
 
-    public void removeObject(GameObject object) {
-        gameObjects.remove(object);
+    private void performAction() {
+        /***************
+         * Engine Code *
+         ***************/
 
-        /*************
-         * Game Code *
-         *************/
-    }
+        ActionTag action = uiHandler.getAction();
+        if (action != null) {
+            /*************
+             * Game Code *
+             *************/
 
-    private void updateObjects() {
-        for (int i = 0; i < gameObjects.size(); i++) {
-            GameObject object = gameObjects.get(i);
-            object.update();
+            /***************
+             * Engine Code *
+             ***************/
+
+            uiHandler.endAction();
         }
     }
 
-    private void renderObjects(Graphics g) {
-        for (int i = 0; i < gameObjects.size(); i++) {
-            GameObject object = gameObjects.get(i);
-            object.render(g);
+    /*******************************
+     * Entity Management Functions *
+     ****************-**************/
+
+    public void addEntity(Entity entity) {
+        entities.add(entity);
+
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
+
+        /*************
+         * Game Code *
+         *************/
+    }
+
+    private void updateEntities() {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity = entities.get(i);
+            entity.update();
+        }
+    }
+
+    private void renderEntities(Graphics g) {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity = entities.get(i);
+            entity.render(g);
         }
     }
 
@@ -252,12 +387,9 @@ public class GameController {
      ***************************/
 
     private void drawScore(Graphics g) {
-        int posX = Engine.percWidth(1);
-        int posY = Engine.percHeight(5);
-
         g.setFont(new Font("arial", 1, 20));
         g.setColor(Color.WHITE);
-        g.drawString("Score: " + score, posX, posY);
+        g.drawString("Score: " + score, scoreX, scoreY);
     }
 
     private void drawLives(Graphics g) {
@@ -275,16 +407,20 @@ public class GameController {
     }
 
     private void drawHealth(Graphics g) {
-        int x = Engine.intAtWidth640(10);
-        int y = x/2;
         int width = Engine.intAtWidth640(2);
-        int height = width*6;
+        int height = width * 6;
         Color backColor = Color.lightGray;
         Color healthColor = Color.GREEN;
         g.setColor(backColor);
-        g.fillRect(x,y, healthDef * width, height);
+        g.fillRect(healthX, healthY, healthDefault * width, height);
         g.setColor(healthColor);
-        g.fillRect(x,y, health * width, height);
+        g.fillRect(healthX, healthY, health * width, height);
+    }
+
+    private void drawPower(Graphics g) {
+        g.setFont(new Font("arial", 1, powerSize));
+        g.setColor(Color.WHITE);
+        g.drawString("Power: " + power, powerX, powerY);
     }
 
     public void drawHighScore(Graphics g) {

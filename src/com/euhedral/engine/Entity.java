@@ -1,21 +1,19 @@
-package com.euhedral.game;
+package com.euhedral.engine;
 
 import com.euhedral.engine.Animation;
+import com.euhedral.game.ObjectID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class GameObject {
+public abstract class Entity {
 
     protected float x, y;
     protected int width, height;
-    protected ObjectID id;
     protected float velX = 0, velY = 0; // sets the initial velocities to 0, so the object is not moving unless stated otherwise.
+    protected ObjectID id;
 
-    // this can be completely commented out if the game has no functional use of gravity
-    protected float gravity = 1f, terminalVel;
-    protected boolean gravityAffected = false, jumping = false; // every object is initialized to be not jumping or affected by gravity
-
+    // Graphics
     protected Color color;
     protected BufferedImage image;
     protected BufferedImage images[];
@@ -23,7 +21,14 @@ public abstract class GameObject {
     protected Animation anim;
     protected int animationSpeed = 3;
 
-    public GameObject(float x, float y, ObjectID id) {
+    // this can be completely commented out if the
+    // game has no functional use of physics
+    protected float gravity = 1f, terminalVel;
+
+    // every object is initialized to be not jumping or affected by gravity
+    protected boolean gravityAffected = false, jumping = false, friction = false;
+
+    public Entity(float x, float y, ObjectID id) {
         this.x = x;
         this.y = y;
         this.id = id;
@@ -31,7 +36,7 @@ public abstract class GameObject {
         initialize();
     }
 
-    public GameObject(float x, float y, BufferedImage image, ObjectID id) {
+    public Entity(float x, float y, BufferedImage image, ObjectID id) {
         this.x = x;
         this.y = y;
         this.id = id;
@@ -40,7 +45,7 @@ public abstract class GameObject {
         initialize();
     }
 
-    public GameObject(float x, float y, BufferedImage[] images, ObjectID id) {
+    public Entity(float x, float y, BufferedImage[] images, ObjectID id) {
         this.x = x;
         this.y = y;
         this.id = id;
@@ -48,6 +53,8 @@ public abstract class GameObject {
 
         initialize();
     }
+
+    protected abstract void initialize();
 
     public abstract void update();
 
@@ -65,7 +72,6 @@ public abstract class GameObject {
             drawRect(g);
         }
     }
-    protected void initialize() {}
 
     protected void drawAnimation(Graphics g) {
 

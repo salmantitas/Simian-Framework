@@ -1,70 +1,30 @@
-package com.euhedral.engine;/*
- * Do not modify
- * */
-
-import com.euhedral.engine.Engine;
+package com.euhedral.engine;
 
 import java.awt.*;
 import java.util.LinkedList;
 
 public class Button {
-    private int x, y, width, height;
-    private int size;
-    private String text;
-    private Font font;
-    private GameState renderState, targetSate;
-    private Color backColor, textColor;
-    private boolean fill = false;
-    private LinkedList<GameState> otherStates = new LinkedList<>();
-    private float transparency = 1;
+    protected int x, y, width, height;
+    protected int size;
+    protected String text;
+    protected Font font;
+    protected GameState renderState;
+    protected boolean selected = false;
+    protected Color backColor, textColor, selectedColor;
+    protected boolean fill = false;
+    protected LinkedList<GameState> otherStates = new LinkedList<>();
+    protected float transparency = 1;
 
-    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate) {
+    public Button(int x, int y, int size, String text, GameState renderState) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.text = text;
         this.renderState = renderState;
-        this.targetSate = targetSate;
         font = new Font("arial", 1, size);
         backColor = Color.BLUE;
+        selectedColor = Color.GREEN;
         textColor = Color.RED;
-    }
-
-    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, boolean fill) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.text = text;
-        this.renderState = renderState;
-        this.targetSate = targetSate;
-        font = new Font("arial", 1, size);
-        backColor = Color.BLUE;
-        textColor = Color.RED;
-        this.fill = fill;
-    }
-
-    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, Color backColor, Color textColor) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.text = text;
-        this.renderState = renderState;
-        this.targetSate = targetSate;
-        font = new Font("arial", 1, size);
-        this.backColor = backColor;
-        this.textColor = textColor;
-    }
-
-    public Button(int x, int y, int size, String text, GameState renderState, GameState targetSate, Color backColor, Color textColor, Font font) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.text = text;
-        this.renderState = renderState;
-        this.targetSate = targetSate;
-        this.font = font;
-        this.backColor = backColor;
-        this.textColor = textColor;
     }
 
     public void render(Graphics g) {
@@ -86,7 +46,9 @@ public class Button {
             g.fill3DRect(x,y,width,height, true);
         else g.draw3DRect(x, y, width, height, true);
 
-        g.setColor(textColor);
+        if (selected)
+            g.setColor(selectedColor);
+        else g.setColor(textColor);
         g.drawString(text, x + Engine.perc(width, 5), y + Engine.perc(height, 75));
 
         if (transparency < 1) {
@@ -106,7 +68,6 @@ public class Button {
         this.transparency = transparency;
     }
 
-    // Checks whether the state is the same as any of the allowed render states
     public boolean stateIs(GameState state) {
         boolean temp;
         if (otherStates.isEmpty())
@@ -128,8 +89,10 @@ public class Button {
         return renderState;
     }
 
-    public GameState getTargetSate() {
-        return targetSate;
+    // Not very sure what's happening here
+    private AlphaComposite makeTransparent(float alpha) {
+        int type = AlphaComposite.SRC_OVER;
+        return(AlphaComposite.getInstance(type, alpha));
     }
 
     public void addOtherState(GameState state) {
@@ -140,9 +103,19 @@ public class Button {
         this.text = text;
     }
 
-    // Not very sure what's happening here
-    private AlphaComposite makeTransparent(float alpha) {
-        int type = AlphaComposite.SRC_OVER;
-        return(AlphaComposite.getInstance(type, alpha));
+    public void select() {
+        setSelected(true);
+    }
+
+    public void deselect() {
+        setSelected(false);
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    private void setSelected(boolean b) {
+        selected = b;
     }
 }

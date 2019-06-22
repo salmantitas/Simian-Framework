@@ -1,11 +1,11 @@
 package com.euhedral.game;
 
-import com.euhedral.engine.Engine;
+import com.euhedral.engine.Entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Player extends GameObject {
+public class Player extends Entity {
 
     private float riseVelocity;;
 

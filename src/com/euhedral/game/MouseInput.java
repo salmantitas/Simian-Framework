@@ -1,9 +1,9 @@
 package com.euhedral.game;
 
 import com.euhedral.engine.EngineMouse;
-import com.euhedral.game.GameController;
 
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MouseInput extends MouseAdapter {
     private GameController gameController;
@@ -15,23 +15,37 @@ public class MouseInput extends MouseAdapter {
     }
 
     public void updatePressed() {
-        gameController.mousePressed(getMxPressed(), getMyPressed());
+//        if (legalPress)
+        notifyPress(mouse.getButtonPressed());
     }
 
     public void updateReleased() {
-        gameController.mouseReleased(getMxReleased(), getMyReleased());
+//        if (legalRelease)
+        notifyRelease(mouse.getButtonReleased());
+        gameController.checkButtonAction(getMxReleased(), getMyReleased());
     }
 
     public void updateMoved() {
-
+        notifyMoved(getMxMoved(), getMyMoved());
+    }
+    public void updateDragged() {
+        notifyDragged(getMxDrag(), getMyDrag());
     }
 
-    public int getMx() {
-        return mouse.getMx();
+    public int getMxMoved() {
+        return mouse.getMxMove();
     }
 
-    public int getMy() {
-        return mouse.getMy();
+    public int getMyMoved() {
+        return mouse.getMyMove();
+    }
+
+    public int getMxDrag() {
+        return mouse.getMxDrag();
+    }
+
+    public int getMyDrag() {
+        return mouse.getMyDrag();
     }
 
     public int getMxPressed() {
@@ -50,11 +64,19 @@ public class MouseInput extends MouseAdapter {
         return mouse.getMyReleased();
     }
 
-    public void checkButtonPressed() {
-        gameController.mouseReleased(getMxPressed(), getMyPressed());
+    private void notifyPress(int me) {
+        gameController.mouseButtonPressed(me);
     }
 
-    public void checkButtonReleased() {
-        gameController.mouseReleased(getMxReleased(), getMyReleased());
+    private void notifyRelease(int me) {
+        gameController.mouseButtonReleased(me);
+    }
+
+    private void notifyMoved(int mx, int my) {
+        gameController.mouseMoved(mx, my);
+    }
+
+    private void notifyDragged(int mx, int my) {
+        gameController.mouseDragged(mx, my);
     }
 }

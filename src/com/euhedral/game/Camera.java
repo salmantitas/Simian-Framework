@@ -1,6 +1,7 @@
 package com.euhedral.game;
 
 import com.euhedral.engine.Engine;
+import com.euhedral.engine.Entity;
 
 public class Camera {
 
@@ -12,9 +13,9 @@ public class Camera {
         this.y = y;
     }
 
-    public void update(GameObject gameObject) {
-        x = gameObject.getX() - Engine.WIDTH/2;
-        y = gameObject.getY() - Engine.HEIGHT/2;
+    public void update(Entity entity) {
+        x = entity.getX() - Engine.WIDTH/2;
+        y = entity.getY() - Engine.HEIGHT/2;
     }
 
     public float getX() {

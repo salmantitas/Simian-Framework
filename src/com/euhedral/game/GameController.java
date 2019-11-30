@@ -23,40 +23,14 @@ public class GameController {
     private String gameTitle = Engine.TITLE;
     private Color gameBackground = Engine.BACKGROUND_COLOR;
 
-    /****************************************
-     * Common Game Variables                *
-     * Comment Out Whichever is Unnecessary *
-     ****************************************/
-
-    // Score
-    private int score = 0;
-    private int scoreX = Engine.percWidth(5);
-    private int scoreY = Engine.percHeight(15);
-    private int scoreSize = Engine.percWidth(4);
-
-    // Vitality
-    private int lives = 3;
-
-    private int healthX = Engine.percWidth(2.5);
-    private int healthY = 5 * healthX;
-    private final int healthDefault = 100;
-    private int health = healthDefault;
-
-    // Power
-    private int powerX = Engine.percWidth(37);
-    private int powerY = scoreY;
-    private int powerSize = scoreSize;
-    private final int maxPower = 5;
-    private int power = 1;
-
     // High Score
     private LinkedList<Integer> highScore = new LinkedList<>();
     private int highScoreNumbers = 5;
     private boolean updateHighScore = false;
 
     // Objects
-    private Player player;
-    private LinkedList<Entity> entities = new LinkedList<>();
+    private VariableManager variableManager;
+    private EntityManager entityManager;
 
     // Camera
     private Camera camera;
@@ -76,6 +50,10 @@ public class GameController {
     /******************
      * User variables *
      ******************/
+
+    /************
+     * Graphics *
+     ************/
 
     public GameController() {
 
@@ -187,9 +165,9 @@ public class GameController {
     }
 
     private void renderInCamera(Graphics g) {
-        /*****************
-         * Engine Conde *
-         *****************/
+        /***************
+         * Engine Code *
+         ***************/
 
         Graphics2D g2d = (Graphics2D) g;
 
@@ -286,23 +264,23 @@ public class GameController {
         updateHighScore = true;
     }
 
-    private void updateHighScore() {
-        /***************
-         * Engine Code *
-         ***************/
-
-        if (updateHighScore) {
-            int toAddIndex = 0;
-            for (int hs: highScore) {
-                if (hs > score) {
-                    toAddIndex++;
-                }
-                else break;
-            }
-            highScore.add(toAddIndex, score);
-            updateHighScore = false;
-        }
-    }
+//    private void updateHighScore() {
+//        /***************
+//         * Engine Code *
+//         ***************/
+//
+//        if (updateHighScore) {
+//            int toAddIndex = 0;
+//            for (int hs: highScore) {
+//                if (hs > score) {
+//                    toAddIndex++;
+//                }
+//                else break;
+//            }
+//            highScore.add(toAddIndex, score);
+//            updateHighScore = false;
+//        }
+//    }
 
     public void resetGame() {
         /***************
@@ -310,9 +288,9 @@ public class GameController {
          ***************/
 
         Engine.timer = 0;
-        score = 0;
-        power = 1;
-        health = healthDefault;
+        variableManager.resetScore();
+        variableManager.resetPower();
+        variableManager.resetHealth();
 
         /*************
          * Game Code *
@@ -348,38 +326,8 @@ public class GameController {
         }
     }
 
-    /*******************************
-     * Entity Management Functions *
-     ****************-**************/
-
-    public void addEntity(Entity entity) {
-        entities.add(entity);
-
-        /*************
-         * Game Code *
-         *************/
-    }
-
-    public void removeEntity(Entity entity) {
-        entities.remove(entity);
-
-        /*************
-         * Game Code *
-         *************/
-    }
-
-    private void updateEntities() {
-        for (int i = 0; i < entities.size(); i++) {
-            Entity entity = entities.get(i);
-            entity.update();
-        }
-    }
-
-    private void renderEntities(Graphics g) {
-        for (int i = 0; i < entities.size(); i++) {
-            Entity entity = entities.get(i);
-            entity.render(g);
-        }
+    public void notifyUIHandler(GameState state) {
+        uiHandler.updateState(state);
     }
 
     /***************************
@@ -387,41 +335,30 @@ public class GameController {
      ***************************/
 
     private void drawScore(Graphics g) {
-        g.setFont(new Font("arial", 1, 20));
-        g.setColor(Color.WHITE);
-        g.drawString("Score: " + score, scoreX, scoreY);
-    }
-
-    private void drawLives(Graphics g) {
-        int x = Engine.intAtWidth640(10);
-        int y = x/2;
-        int sep = x*2; //x/5;
-        int width = Engine.intAtWidth640(16);
-        int height = width;
-        Color color = Color.GREEN;
-        for (int i = 0; i < lives; i++)
-        {
-            g.setColor(color);
-            g.fillOval(x + sep * i, y, width, height);
-        }
+        variableManager.renderScore(g);
     }
 
     private void drawHealth(Graphics g) {
-        int width = Engine.intAtWidth640(2);
-        int height = width * 6;
-        Color backColor = Color.lightGray;
-        Color healthColor = Color.GREEN;
-        g.setColor(backColor);
-        g.fillRect(healthX, healthY, healthDefault * width, height);
-        g.setColor(healthColor);
-        g.fillRect(healthX, healthY, health * width, height);
+        variableManager.renderHealth(g);
     }
 
     private void drawPower(Graphics g) {
-        g.setFont(new Font("arial", 1, powerSize));
-        g.setColor(Color.WHITE);
-        g.drawString("Power: " + power, powerX, powerY);
+        variableManager.renderPower(g);
     }
+
+//    private void drawLives(Graphics g) {
+//        int x = Engine.intAtWidth640(10);
+//        int y = x/2;
+//        int sep = x*2; //x/5;
+//        int width = Engine.intAtWidth640(16);
+//        int height = width;
+//        Color color = Color.GREEN;
+//        for (int i = 0; i < lives; i++)
+//        {
+//            g.setColor(color);
+//            g.fillOval(x + sep * i, y, width, height);
+//        }
+//    }
 
     public void drawHighScore(Graphics g) {
         g.setFont(new Font("arial", 1, 20));

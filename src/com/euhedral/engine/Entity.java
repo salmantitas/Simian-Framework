@@ -1,19 +1,16 @@
 package com.euhedral.engine;
 
-import com.euhedral.engine.Animation;
-import com.euhedral.game.ObjectID;
+import com.euhedral.game.EntityID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
 
-    protected float x, y;
-    protected int width, height;
-    protected float velX = 0, velY = 0; // sets the initial velocities to 0, so the object is not moving unless stated otherwise.
-    protected ObjectID id;
+    protected int x, y, width, height;
+    protected EntityID id;
+    protected boolean active = true;
 
-    // Graphics
     protected Color color;
     protected BufferedImage image;
     protected BufferedImage images[];
@@ -28,30 +25,22 @@ public abstract class Entity {
     // every object is initialized to be not jumping or affected by gravity
     protected boolean gravityAffected = false, jumping = false, friction = false;
 
-    public Entity(float x, float y, ObjectID id) {
+    public Entity(int x, int y, EntityID id) {
         this.x = x;
         this.y = y;
         this.id = id;
-
         initialize();
     }
 
-    public Entity(float x, float y, BufferedImage image, ObjectID id) {
-        this.x = x;
-        this.y = y;
-        this.id = id;
+    public Entity(int x, int y, EntityID id, BufferedImage image) {
+        this(x,y, id);
         this.image = image;
-
-        initialize();
     }
 
-    public Entity(float x, float y, BufferedImage[] images, ObjectID id) {
-        this.x = x;
-        this.y = y;
-        this.id = id;
+    public Entity(int x, int y, EntityID id, BufferedImage[] images) {
+        this(x,y, id);
         this.images = images;
 
-        initialize();
     }
 
     protected abstract void initialize();
@@ -92,19 +81,21 @@ public abstract class Entity {
         g2d.draw(getBoundsRight());
     }
 
-    public float getX() {
+    // Getters & Setters
+
+    public int getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public float getY() {
+    public int getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -124,28 +115,12 @@ public abstract class Entity {
         this.height = height;
     }
 
-    public ObjectID getId() {
+    public EntityID getId() {
         return id;
     }
 
-    public void setId(ObjectID id) {
+    public void setId(EntityID id) {
         this.id = id;
-    }
-
-    public float getVelX() {
-        return velX;
-    }
-
-    public void setVelX(float velX) {
-        this.velX = velX;
-    }
-
-    public float getVelY() {
-        return velY;
-    }
-
-    public void setVelY(float velY) {
-        this.velY = velY;
     }
 
     public boolean isGravityAffected() {
@@ -204,5 +179,27 @@ public abstract class Entity {
         g.fillRect((int) x, (int) y, width, height);
     }
 
+    public boolean isActive() {
+        return active;
+    }
 
+    public void enable() {
+        setActive(true);
+    }
+
+    public void disable() {
+        setActive(false);
+    }
+
+    private void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /*
+     * Debug
+     * */
+
+    protected void printLocation() {
+        System.out.printf("__ at (%d, %d)", x, y);
+    }
 }

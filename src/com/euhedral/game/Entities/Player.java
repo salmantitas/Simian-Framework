@@ -1,25 +1,25 @@
-package com.euhedral.game;
+package com.euhedral.game.Entities;
 
 import com.euhedral.engine.Entity;
+import com.euhedral.engine.MobileEntity;
+import com.euhedral.game.EntityID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Player extends Entity {
+public class Player extends MobileEntity {
 
-    private float riseVelocity;;
-
-    public Player(float x, float y) {
-        super(x, y, ObjectID.Player);
+    public Player(int x, int y) {
+        super(x, y, EntityID.Player);
     }
 
-    public Player(float x, float y, BufferedImage image) {
-        super(x, y, image, ObjectID.Player);
-    }
-
-    public Player(float x, float y, BufferedImage[] images) {
-        super(x, y, images, ObjectID.Player);
-    }
+//    public Player(int x, int y, BufferedImage image) {
+//        super(x, y, image, EntityID.Player);
+//    }
+//
+//    public Player(int x, int y, BufferedImage[] images) {
+//        super(x, y, images, EntityID.Player);
+//    }
 
     @Override
     public void initialize() {

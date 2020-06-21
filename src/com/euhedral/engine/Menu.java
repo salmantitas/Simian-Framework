@@ -1,9 +1,5 @@
 package com.euhedral.engine;
 
-import com.euhedral.engine.*;
-import com.euhedral.engine.Button;
-import com.euhedral.engine.MenuItem;
-import com.euhedral.engine.Panel;
 import com.euhedral.game.ActionTag;
 
 import java.awt.*;
@@ -21,20 +17,20 @@ public class Menu {
 
     // Title Variables
 
-    int titleX = Engine.percWidth(9);
-    int titleY = Engine.percHeight(20);
-    int titleSize = Engine.percWidth(11.5);
-    Color titleColor = Color.BLACK;
+    protected int titleX = Utility.percWidth(9);
+    protected int titleY = Utility.percHeight(20);
+    protected int titleSize = Utility.percWidth(11.5);
+    protected Color titleColor = Color.BLACK;
 
-    int buttonSize = Engine.percWidth(5);
-    int leftButtonX = Engine.percWidth(5);
-    int midLeftButtonX = Engine.percWidth(38);
-    int midButtonX = Engine.percWidth(45);
-    int midRightButtonX = Engine.percWidth(50);
-    int rightButtonX = Engine.percWidth(80);
-    int topButtonY = Engine.percHeight(30);
-    int midHeightButtonY = Engine.percHeight(50);
-    int lowestButtonY = Engine.percHeight(70);
+    protected int buttonSize = Utility.percWidth(5);
+    protected int leftButtonX = Utility.percWidth(5);
+    protected int midLeftButtonX = Utility.percWidth(38);
+    protected int midButtonX = Utility.percWidth(45);
+    protected int midRightButtonX = Utility.percWidth(50);
+    protected int rightButtonX = Utility.percWidth(80);
+    protected int topButtonY = Utility.percHeight(30);
+    protected int midHeightButtonY = Utility.percHeight(50);
+    protected int lowestButtonY = Utility.percHeight(70);
 
     public Menu(GameState state) {
         this.state = state;

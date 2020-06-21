@@ -1,17 +1,18 @@
 package com.euhedral.game;
 
-import com.euhedral.engine.BufferedImageLoader;
-import com.euhedral.engine.Engine;
-import com.euhedral.engine.Entity;
-import com.euhedral.engine.GameState;
+import com.euhedral.engine.*;
 
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class GameController {
     private UIHandler uiHandler;
     private Random r = new Random();
+
+    public Scanner scanner;
+    public static String cmd;
 
     /********************************************
      * Window Settings - Manually Configurable *
@@ -39,13 +40,14 @@ public class GameController {
 
     // Graphics
     private BufferedImageLoader loader;
+    public static Texture texture;
 
     // Level Generation
     private LevelGenerator levelGenerator;
 
     // Levels
     private int levelWidth, levelHeight;
-    private boolean loadMission;
+    private boolean loadMission = false;
 
     /******************
      * User variables *
@@ -66,6 +68,8 @@ public class GameController {
         Engine.setBACKGROUND_COLOR(gameBackground);
         gameHeight = Engine.HEIGHT;
         uiHandler = new UIHandler();
+        variableManager = new VariableManager();
+        entityManager = new EntityManager(variableManager);
         initializeGame();
         initializeGraphics();
         initializeAnimations();
@@ -80,12 +84,19 @@ public class GameController {
         /*************
          * Game Code *
          *************/
+
+//        Engine.menuState();
+        variableManager = new VariableManager();
+        entityManager = new EntityManager(variableManager);
+        scanner = new Scanner(System.in);
     }
 
     private void initializeGraphics() {
         /*************
          * Game Code *
          *************/
+
+        texture = new Texture();
     }
 
     private void initializeAnimations() {
@@ -98,31 +109,35 @@ public class GameController {
         /*************
          * Game Code *
          *************/
+
+        levelGenerator = new LevelGenerator(this);
     }
 
     public void update() {
         //        System.out.println(Engine.currentState);
         Engine.timer++;
 
-        if (Engine.currentState == GameState.Quit)
+        if (Engine.stateIs(GameState.Quit))
             Engine.stop();
 
-        if (Engine.currentState != GameState.Pause && Engine.currentState != GameState.Game || Engine.currentState != GameState.Transition)
+        if (!Engine.stateIs(GameState.Pause) && !Engine.stateIs(GameState.Game) && !Engine.stateIs(GameState.Transition))
             resetGame();
 
-        if (Engine.currentState == GameState.Transition) {
+        if (Engine.stateIs(GameState.Transition)) {
             /*************
              * Game Code *
              *************/
         }
 
-        if (Engine.currentState == GameState.Game) {
+        /*
+         * Disable the level load permission, as the level is already running
+         * */
+        if (Engine.stateIs(GameState.Game) && !VariableManager.isConsole()) {
             loadMission = false;
-            boolean endGameCondition = false;
+            boolean endGameCondition = variableManager.getHealth() <= 0;
 
             if (endGameCondition) {
                 Engine.gameOverState();
-                enableHighScoreUpdate();
                 resetGame();
             }
 
@@ -244,44 +259,6 @@ public class GameController {
      * Game Managing Functions *
      ***************************/
 
-    // High Score
-
-    private void setupHighScore() {
-        /***************
-         * Engine Code *
-         ***************/
-
-        for (int i = 0; i < highScoreNumbers; i++) {
-            highScore.add(0);
-        }
-    }
-
-    private void enableHighScoreUpdate() {
-        /***************
-         * Engine Code *
-         ***************/
-
-        updateHighScore = true;
-    }
-
-//    private void updateHighScore() {
-//        /***************
-//         * Engine Code *
-//         ***************/
-//
-//        if (updateHighScore) {
-//            int toAddIndex = 0;
-//            for (int hs: highScore) {
-//                if (hs > score) {
-//                    toAddIndex++;
-//                }
-//                else break;
-//            }
-//            highScore.add(toAddIndex, score);
-//            updateHighScore = false;
-//        }
-//    }
-
     public void resetGame() {
         /***************
          * Engine Code *
@@ -330,6 +307,72 @@ public class GameController {
         uiHandler.updateState(state);
     }
 
+    public void save() {
+        // todo: make it work
+        System.out.println("Saving");
+        // write to JSON current:
+        // level
+        // health
+        // score
+        // power
+        // ground
+    }
+
+    public void load() {
+        // todo: make it work
+        System.out.println("Loading");
+        // set from JSON current:
+        // level
+        // health
+        // score
+        // power
+        // ground
+    }
+
+    public static Texture getTexture() {
+        return texture;
+    }
+
+    /************************
+     * High Score Functions *
+     ************************/
+
+    private void setupHighScore() {
+        /***************
+         * Engine Code *
+         ***************/
+
+        for (int i = 0; i < highScoreNumbers; i++) {
+            highScore.add(0);
+        }
+    }
+
+    private void enableHighScoreUpdate() {
+        /***************
+         * Engine Code *
+         ***************/
+
+        updateHighScore = true;
+    }
+
+//    private void updateHighScore() {
+//        /***************
+//         * Engine Code *
+//         ***************/
+//
+//        if (updateHighScore) {
+//            int toAddIndex = 0;
+//            for (int hs: highScore) {
+//                if (hs > score) {
+//                    toAddIndex++;
+//                }
+//                else break;
+//            }
+//            highScore.add(toAddIndex, score);
+//            updateHighScore = false;
+//        }
+//    }
+
     /***************************
      * Render Helper Functions *
      ***************************/
@@ -364,7 +407,7 @@ public class GameController {
         g.setFont(new Font("arial", 1, 20));
         g.setColor(Color.WHITE);
         for (int i = 0; i < highScoreNumbers; i++) {
-            g.drawString("Score " + (i+1) + ": " + highScore.get(i), Engine.percWidth(75), Engine.percHeight( 10 * i + 10));
+            g.drawString("Score " + (i+1) + ": " + highScore.get(i), Utility.percWidth(75), Utility.percHeight( 10 * i + 10));
         }
     }
 

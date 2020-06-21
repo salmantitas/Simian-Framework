@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import com.euhedral.game.GameController;
 
-public class Engine extends Canvas implements Runnable {
+public class Engine extends Canvas implements Runnable{
 
     /*
      * By Default:
@@ -30,7 +30,9 @@ public class Engine extends Canvas implements Runnable {
     public static int timer = 0;
 
     public static GameController gameController;
+    public static BufferedImageLoader loader;
 
+    // todo: change to private
     public static GameState currentState = GameState.Game;
 
     public EngineKeyboard keyInput;
@@ -45,6 +47,7 @@ public class Engine extends Canvas implements Runnable {
      * Creates the window
      */
     public Engine() {
+        loader = new BufferedImageLoader();
         gameController = new GameController();
 
         keyInput = new EngineKeyboard(gameController);
@@ -132,13 +135,13 @@ public class Engine extends Canvas implements Runnable {
      * Fills the screen with the background color and calls the gameController's render function
      * */
     public void render() {
-        BufferStrategy bs = getBufferStrategy();
+        BufferStrategy bs = getBufferStrategy(); // BufferStrategy loads the upcoming frames in memory (prerenders them)
         if (bs == null) {
-            createBufferStrategy(3);
+            createBufferStrategy(3); // pre-renders three frames
             return;
         }
 
-        Graphics g = bs.getDrawGraphics();
+        Graphics g = bs.getDrawGraphics(); //
 
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, WIDTH, WIDTH);
@@ -146,67 +149,13 @@ public class Engine extends Canvas implements Runnable {
         gameController.render(g);
 
         g.dispose();
-        bs.show();
+        bs.show(); //
     }
 
     public static void main(String[] args) {
-        System.out.println("Euhedral com.euhedral.engine.Engine " + VERSION + " Started");
+        System.out.println("Euhedral Engine " + VERSION + " Started");
         new Engine();
     }
-
-    /***********************
-     * GameState Functions *
-     ***********************/
-
-    /*
-     * Notify UI Handler about the change of state
-     * */
-    private static void notifyUIHandler() {
-        if (gameController != null)
-            gameController.notifyUIHandler(currentState);
-    }
-
-    /*
-     * Manually set the GameState
-     * */
-    public static void setState(GameState state) {
-        currentState = state;
-        notifyUIHandler();
-    }
-
-    /*
-    * Set the state to Game
-    * */
-    public static void gameState() {
-        setState(GameState.Game);
-    }
-
-    /*
-     * Set the state to Transition
-     * */
-    public static void transitionState() {
-        setState(GameState.Transition);
-    }
-
-    /*
-     * Set the state to Menu
-     * */
-    public static void menuState() {
-        setState(GameState.Menu);
-    }
-
-    /*
-     * Set the state to GameOver
-     * */
-    public static void gameOverState() {
-        setState(GameState.GameOver);
-    }
-
-    /*
-     * Set the state to Pause
-     * */
-    public static void pauseState() {
-        setState(GameState.Pause);}
 
     /***********************************************
      * Utility functions To Adjust Game Properties *
@@ -274,67 +223,66 @@ public class Engine extends Canvas implements Runnable {
         BACKGROUND_COLOR = new Color(red, green, blue);
     }
 
-    /*
-     * Returns the given percentage of a given parameter
-     * */
-    public static int perc(int parameter, double percentage) {
-        return  (int) (parameter * percentage/ 100.0);
-    }
-
-    /*
-     * Returns the given percentage of the screen width
-     * */
-    public static int percWidth(double percentage) {
-        return perc(WIDTH, percentage);
-    }
-
-    /*
-     * Returns the given percentage of the screen height
-     * */
-    public static int percHeight(double percentage) {
-        return perc(HEIGHT, percentage);
-    }
-
-    /*
-     * Scales the input integer up from what it would have been at screen width of 640
-     * */
-    public static int intAtWidth640(int var) {
-        float factor = 640/var;
-        return (int) (WIDTH/factor);
-    }
-
-    /*
-     * Scales the input float up from what it would have been at screen width of 640
-     * */
-    public static float floatAtWidth640(int var) {
-        float factor = 640/var;
-        return (float) (WIDTH/factor);
-    }
-
-    /*
-     * Limits the given integer between min and max
-     * */
-    public static int clamp(int var, int min, int max) {
-        if (var <= min)
-            return min;
-        if (var >= max)
-            return max;
-        else return var;
-    }
-
-    /*
-     * Limits the given float between min and max
-     * */
-    public static float clamp(float var, float min, float max) {
-        if (var <= min)
-            return min;
-        if (var >= max)
-            return max;
-        else return var;
-    }
-
     public static void printTimer() {
         System.out.println(timer);
     }
 
+    /***********************
+     * GameState Functions *
+     ***********************/
+
+    /*
+     * Notify UI Handler about the change of state
+     * */
+    private static void notifyUIHandler() {
+        if (gameController != null)
+            gameController.notifyUIHandler(currentState);
+    }
+
+    /*
+     * Manually set the GameState
+     * */
+    public static void setState(GameState state) {
+        currentState = state;
+        notifyUIHandler();
+    }
+
+    /*
+     * Set the state to Game
+     * */
+    public static void gameState() {
+        setState(GameState.Game);
+    }
+
+    /*
+     * Set the state to Transition
+     * */
+    public static void transitionState() {
+        setState(GameState.Transition);
+    }
+
+    /*
+     * Set the state to Menu
+     * */
+    public static void menuState() {
+        setState(GameState.Menu);
+    }
+
+    /*
+     * Set the state to GameOver
+     * */
+    public static void gameOverState() {
+        setState(GameState.GameOver);
+    }
+
+    /*
+     * Set the state to Pause
+     * */
+    public static void pauseState() {
+        setState(GameState.Pause);
+    }
+
+    public static boolean stateIs(GameState state) {
+        return currentState == state;
+    }
 }

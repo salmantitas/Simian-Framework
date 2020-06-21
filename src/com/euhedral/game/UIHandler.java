@@ -37,19 +37,9 @@ public class UIHandler {
          * Game Code *
          *************/
 
-        // Game Backdrop
-
-        // Main Menu
-
-
-
-        // In-Game
-
-        // Transition
-
-        // Game Over
-
-        // High Score Menu
+//        MenuMain mainMenu = new MenuMain();
+//        menus.add(mainMenu);
+//        currentMenu = mainMenu;
 
     }
 
@@ -65,6 +55,8 @@ public class UIHandler {
 
         // Debug/Console
         drawState(g);
+        if (VariableManager.isConsole())
+            drawCommand(g);
     }
 
     public void checkHover(int mx, int my) {
@@ -124,8 +116,14 @@ public class UIHandler {
      *******************/
 
     public void drawState(Graphics g) {
-        g.setFont(new Font("arial", 1, Engine.percWidth(1.5)));
+        g.setFont(new Font("arial", 1, Utility.percWidth(1.5)));
         g.setColor(Color.WHITE);
-        g.drawString("State: " + Engine.currentState, Engine.percWidth(85), Engine.percHeight(8));
+        g.drawString("State: " + Engine.currentState, Utility.percWidth(85), Utility.percHeight(8));
+    }
+
+    public void drawCommand(Graphics g) {
+        g.setFont(new Font("arial", 1, Utility.percWidth(1.5)));
+        g.setColor(Color.WHITE);
+        g.drawString("Command: " + GameController.cmd, Utility.percWidth(25), Utility.percHeight(45));
     }
 }

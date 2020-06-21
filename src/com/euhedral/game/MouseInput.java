@@ -15,12 +15,10 @@ public class MouseInput extends MouseAdapter {
     }
 
     public void updatePressed() {
-//        if (legalPress)
         notifyPress(mouse.getButtonPressed());
     }
 
     public void updateReleased() {
-//        if (legalRelease)
         notifyRelease(mouse.getButtonReleased());
         gameController.checkButtonAction(getMxReleased(), getMyReleased());
     }

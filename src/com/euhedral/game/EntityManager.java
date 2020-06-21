@@ -43,6 +43,10 @@ public class EntityManager {
 
     }
 
+    public void spawnEntity(int x, int y, EntityID id, Color color) {
+
+    }
+
     /********************
      * Player Functions *
      ********************/

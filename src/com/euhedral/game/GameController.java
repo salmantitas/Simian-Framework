@@ -1,15 +1,18 @@
 package com.euhedral.game;
 
 import com.euhedral.engine.*;
+import com.euhedral.game.UI.UIHandler;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Random;
 import java.util.Scanner;
 
+// Manages the game itself, and passes instructions to all other classes under it
 public class GameController {
     private UIHandler uiHandler;
-    private Random r = new Random();
 
     public Scanner scanner;
     public static String cmd;
@@ -39,11 +42,13 @@ public class GameController {
     int offsetVertical;
 
     // Graphics
-    private BufferedImageLoader loader;
     public static Texture texture;
 
     // Level Generation
     private LevelGenerator levelGenerator;
+
+    // LevelMap to automate level loading
+    private HashMap<Integer, BufferedImage> levelMap;
 
     // Levels
     private int levelWidth, levelHeight;
@@ -68,8 +73,7 @@ public class GameController {
         Engine.setBACKGROUND_COLOR(gameBackground);
         gameHeight = Engine.HEIGHT;
         uiHandler = new UIHandler();
-        variableManager = new VariableManager();
-        entityManager = new EntityManager(variableManager);
+
         initializeGame();
         initializeGraphics();
         initializeAnimations();
@@ -89,6 +93,11 @@ public class GameController {
         variableManager = new VariableManager();
         entityManager = new EntityManager(variableManager);
         scanner = new Scanner(System.in);
+
+        // Attempt loading latest save-file
+        /*
+        load();
+        */
     }
 
     private void initializeGraphics() {
@@ -110,6 +119,10 @@ public class GameController {
          * Game Code *
          *************/
 
+        // Initialize Manual Levels
+        levelMap = new HashMap<>();
+        //        addLevel(1, "/level1.png");
+
         levelGenerator = new LevelGenerator(this);
     }
 
@@ -122,6 +135,8 @@ public class GameController {
 
         if (!Engine.stateIs(GameState.Pause) && !Engine.stateIs(GameState.Game) && !Engine.stateIs(GameState.Transition))
             resetGame();
+
+        uiHandler.update();
 
         if (Engine.stateIs(GameState.Transition)) {
             /*************
@@ -284,6 +299,20 @@ public class GameController {
         performAction();
     }
 
+    public void save() {
+        SaveLoad.saveGame();
+        System.out.println("Saving");
+    }
+
+    public void load() {
+        try {
+            SaveLoad.loadGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Loading");
+    }
+
     private void performAction() {
         /***************
          * Engine Code *
@@ -305,28 +334,6 @@ public class GameController {
 
     public void notifyUIHandler(GameState state) {
         uiHandler.updateState(state);
-    }
-
-    public void save() {
-        // todo: make it work
-        System.out.println("Saving");
-        // write to JSON current:
-        // level
-        // health
-        // score
-        // power
-        // ground
-    }
-
-    public void load() {
-        // todo: make it work
-        System.out.println("Loading");
-        // set from JSON current:
-        // level
-        // health
-        // score
-        // power
-        // ground
     }
 
     public static Texture getTexture() {
@@ -414,4 +421,20 @@ public class GameController {
     /******************
      * User functions *
      ******************/
+
+    // Checks whether the level completion requirement has been fulfilled
+    public void checkLevelStatus() {
+        // If [condition fulfilled]
+        // Progress to next level or endgame
+        // else, nothing
+    }
+
+    public void setLevelHeight(int h) {
+        levelHeight = h;
+    }
+
+    private void addLevel(int num, String path) {
+        BufferedImage level = Engine.loader.loadImage(path);
+        levelMap.put(num, level);
+    }
 }

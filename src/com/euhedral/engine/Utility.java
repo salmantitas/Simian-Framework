@@ -1,5 +1,11 @@
 package com.euhedral.engine;
 
+import com.euhedral.game.Camera;
+import com.euhedral.game.GameController;
+import com.sun.org.apache.bcel.internal.generic.RET;
+
+import java.awt.*;
+
 import static com.euhedral.engine.Engine.HEIGHT;
 import static com.euhedral.engine.Engine.WIDTH;
 
@@ -62,6 +68,29 @@ public class Utility {
         if (var >= max)
             return max;
         else return var;
+    }
+
+    public static int randomRange(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    /*******************
+     * Debug Functions *
+     *******************/
+
+    private static void debugSettings(Graphics g) {
+        g.setFont(new Font("arial", 1, Utility.percWidth(1.5)));
+        g.setColor(Color.WHITE);
+    }
+
+    public static void drawState(Graphics g) {
+        debugSettings(g);
+        g.drawString("State: " + Engine.currentState, Utility.percWidth(85), Utility.percHeight(4));
+    }
+
+    public static void drawCommand(Graphics g) {
+        debugSettings(g);
+        g.drawString("Command: " + GameController.cmd, Utility.percWidth(25), Utility.percHeight(45));
     }
 
 }

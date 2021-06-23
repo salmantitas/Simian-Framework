@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
+// Manages all entities in game
 public class EntityManager {
     private VariableManager variableManager;
 

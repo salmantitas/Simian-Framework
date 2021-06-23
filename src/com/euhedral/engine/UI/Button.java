@@ -1,63 +1,77 @@
-package com.euhedral.engine;
+package com.euhedral.engine.UI;
+
+import com.euhedral.engine.GameState;
+import com.euhedral.engine.Utility;
 
 import java.awt.*;
 import java.util.LinkedList;
 
-public class Button {
-    protected int x, y, width, height;
+// Interactive Buttons to navigate between menus or activate actions
+public class Button extends UIItem{
     protected int size;
     protected String text;
     protected Font font;
-    protected GameState renderState;
     protected boolean selected = false;
     protected Color backColor, textColor, selectedColor;
     protected boolean fill = false;
+    protected boolean enabled = true;
     protected LinkedList<GameState> otherStates = new LinkedList<>();
     protected float transparency = 1;
 
-    public Button(int x, int y, int size, String text, GameState renderState) {
+    protected Color disabledColor, disabledTextColor;
+
+    public Button(int x, int y, int size, String text) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.text = text;
-        this.renderState = renderState;
         font = new Font("arial", 1, size);
         backColor = Color.BLUE;
         selectedColor = Color.GREEN;
         textColor = Color.RED;
+        disabledColor = Color.GRAY;
+        disabledTextColor = Color.LIGHT_GRAY;
     }
 
     public void render(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        // make it transparent whether the button is enabled or disabled
+
         if (transparency < 1) {
             g2d.setComposite(makeTransparent(transparency));
         }
 
         g.setFont(font);
+
+        // Adjusts the width and height of the button to fit the text
         width = Utility.perc((g.getFontMetrics().stringWidth(text)), 110);
         if (width / size < 3)
             height = Utility.perc(width, 50);
         else height = Utility.perc(width, 25);
 
-        g.setColor(backColor);
-        if (fill)
+        if (!enabled) {
+            g.setColor(disabledColor);
             g.fill3DRect(x,y,width,height, true);
-        else g.draw3DRect(x, y, width, height, true);
 
-        if (selected)
-            g.setColor(selectedColor);
-        else g.setColor(textColor);
-        g.drawString(text, x + Utility.perc(width, 5), y + Utility.perc(height, 75));
+            g.setColor(disabledTextColor);
+            g.drawString(text, x + Utility.perc(width, 5), y + Utility.perc(height, 75));
+        } else {
+            g.setColor(backColor);
+            if (fill)
+                g.fill3DRect(x,y,width,height, true);
+            else g.draw3DRect(x, y, width, height, true);
+
+            if (selected)
+                g.setColor(selectedColor);
+            else g.setColor(textColor);
+            g.drawString(text, x + Utility.perc(width, 5), y + Utility.perc(height, 75));
+        }
 
         if (transparency < 1) {
             g2d.setComposite(makeTransparent(1));
         }
-    }
-
-    public boolean mouseOverlap(int mx, int my) {
-        return (mx >= x && mx <= x + width && my >= y && my <= y + height);
     }
 
     public void setBackColor(Color backColor) {
@@ -68,25 +82,8 @@ public class Button {
         this.transparency = transparency;
     }
 
-    public boolean stateIs(GameState state) {
-        boolean temp;
-        if (otherStates.isEmpty())
-            temp = state == this.renderState;
-        else {
-            temp = state == this.renderState;
-            for (GameState gs: otherStates) {
-                temp = temp || (gs == state);
-            }
-        }
-        return temp;
-    }
-
     public void setFill() {
         this.fill = true;
-    }
-
-    public GameState getRenderState() {
-        return renderState;
     }
 
     // Not very sure what's happening here
@@ -95,12 +92,25 @@ public class Button {
         return(AlphaComposite.getInstance(type, alpha));
     }
 
+    // todo: removal
     public void addOtherState(GameState state) {
         otherStates.add(state);
     }
 
     public void activate() {
 
+    }
+
+    public void enable() {
+        enabled = true;
+    }
+
+    public void disable() {
+        enabled = false;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public void setText(String text) {
@@ -122,4 +132,7 @@ public class Button {
     private void setSelected(boolean b) {
         selected = b;
     }
+
+
 }
+

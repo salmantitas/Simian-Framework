@@ -1,10 +1,10 @@
-package com.euhedral.game;
+package com.euhedral.game.UI;
 
 import com.euhedral.engine.*;
-import com.euhedral.engine.Button;
-import com.euhedral.engine.Menu;
-import com.euhedral.engine.MenuItem;
-import com.euhedral.engine.Panel;
+import com.euhedral.engine.UI.Menu;
+import com.euhedral.game.ActionTag;
+import com.euhedral.game.GameController;
+import com.euhedral.game.VariableManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -43,9 +43,9 @@ public class UIHandler {
 
     }
 
-//    public void update() {
-//
-//    }
+    public void update() {
+        currentMenu.update();
+    }
 
     /*
      * Renders the current menu
@@ -54,9 +54,9 @@ public class UIHandler {
         currentMenu.render(g);
 
         // Debug/Console
-        drawState(g);
+        Utility.drawState(g);
         if (VariableManager.isConsole())
-            drawCommand(g);
+            Utility.drawCommand(g);
     }
 
     public void checkHover(int mx, int my) {
@@ -114,16 +114,4 @@ public class UIHandler {
     /*******************
      * Debug Functions *
      *******************/
-
-    public void drawState(Graphics g) {
-        g.setFont(new Font("arial", 1, Utility.percWidth(1.5)));
-        g.setColor(Color.WHITE);
-        g.drawString("State: " + Engine.currentState, Utility.percWidth(85), Utility.percHeight(8));
-    }
-
-    public void drawCommand(Graphics g) {
-        g.setFont(new Font("arial", 1, Utility.percWidth(1.5)));
-        g.setColor(Color.WHITE);
-        g.drawString("Command: " + GameController.cmd, Utility.percWidth(25), Utility.percHeight(45));
-    }
 }

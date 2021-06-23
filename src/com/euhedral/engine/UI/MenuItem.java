@@ -1,4 +1,4 @@
-package com.euhedral.engine;
+package com.euhedral.engine.UI;
 
 import com.euhedral.engine.GameState;
 
@@ -22,15 +22,10 @@ public abstract class MenuItem {
     }
 
     public MenuItem(int x, int y, int width, int height, GameState renderState, float transparency, Color backColor) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.renderState = renderState;
+        this(x, y, width, height, renderState);
         this.transparency = transparency;
         this.backColor = backColor;
     }
-
 
     public abstract void render(Graphics g);
 
@@ -42,7 +37,7 @@ public abstract class MenuItem {
         this.transparency = transparency;
     }
 
-    protected void addOtherState(GameState state) {
+    public void addOtherState(GameState state) {
         otherStates.add(state);
     }
 

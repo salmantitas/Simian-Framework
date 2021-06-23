@@ -44,9 +44,9 @@ public class VariableManager {
 
     public static HashMap<Color, EntityID> colorMap;
 
-    /*
-     * User Variables
-     * */
+    /******************
+     * User Variables *
+     ******************/
 
     private int healthBossDef, healthBoss;
     private int bossScore = 500;
@@ -61,7 +61,9 @@ public class VariableManager {
     }
 
     private void initializeColorMap() {
-        // Game Code
+        /*************
+         * Game Code *
+         *************/
 
     }
 
@@ -160,7 +162,9 @@ public class VariableManager {
     }
 
 
-    /**/
+    /**********************
+     * Getters and setters *
+     ***********************/
 
     public int getHealthX() {
         return healthX;

@@ -4,6 +4,7 @@ import com.euhedral.engine.*;
 import com.euhedral.engine.UI.Menu;
 import com.euhedral.game.ActionTag;
 import com.euhedral.game.GameController;
+import com.euhedral.game.UI.Menus.MenuPlay;
 import com.euhedral.game.VariableManager;
 
 import java.awt.*;
@@ -37,9 +38,10 @@ public class UIHandler {
          * Game Code *
          *************/
 
-//        MenuMain mainMenu = new MenuMain();
-//        menus.add(mainMenu);
-//        currentMenu = mainMenu;
+        // stubMenu
+        MenuPlay playMenu = new MenuPlay();
+        menus.add(playMenu);
+        currentMenu = playMenu;
 
     }
 

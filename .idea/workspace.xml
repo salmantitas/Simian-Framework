@@ -20,26 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbb7d6e0-8401-433f-905a-4f8b0e62a2c1" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/euhedral/engine/UI/UIItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/euhedral/game/SaveLoad.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/euhedral/game/UI/MessageBox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/euhedral/game/UI/Menus/MenuPlay.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/UI/Button.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/ButtonAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/UI/ButtonAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/ButtonNav.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/UI/ButtonNav.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/Engine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/LevelGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/LevelGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/UI/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/MenuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/UI/MenuItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/UI/Panel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/euhedral/engine/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/engine/Utility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/game/ActionTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/game/ActionTag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/game/EntityID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/game/EntityID.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/euhedral/game/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/game/EntityManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/euhedral/game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/game/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/game/UIHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/game/UI/UIHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/euhedral/game/VariableManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/game/VariableManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/euhedral/game/SaveLoad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/game/SaveLoad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/euhedral/game/UI/UIHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/euhedral/game/UI/UIHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +47,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1uMS7vgG1NSi4AR1O0JUj5wfH1K" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -68,16 +59,19 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554802888802" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.euhedral.game.UI.Menus" />
       <recent name="com.euhedral.game" />
       <recent name="com.euhedral.engine" />
       <recent name="" />
@@ -91,6 +85,8 @@
       </method>
     </configuration>
     <configuration name="Engine" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.euhedral.engine.Engine" />
       <module name="Euhedral Engine" />
       <option name="WORKING_DIRECTORY" value="src" />
@@ -159,12 +155,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../Euhedral Engine" />
     </ignored-roots>
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="498" y="0" key="#Project_Structure" timestamp="1624473824132">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="498" y="0" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1624473824132" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -159,6 +159,8 @@ public class GameController {
             /*************
              * Game Code *
              *************/
+
+            entityManager.update();
         }
     }
 
@@ -182,6 +184,7 @@ public class GameController {
             /*************
              * Game Code *
              *************/
+            entityManager.render(g);
 
 
         }

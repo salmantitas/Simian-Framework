@@ -17,7 +17,19 @@ public class EntityManager {
     // Entity Lists
 
     EntityManager(VariableManager variableManager) {
+        /***************
+         * Engine Code *
+         ***************/
+
         this.variableManager = variableManager;
+
+        /*************
+         * Game Code *
+         *************/
+
+        // todo: Code here, remove entities stub if unnecessary
+
+        entities = new LinkedList<>(); // stub
     }
 
     public void initializeGraphics() {
@@ -37,11 +49,27 @@ public class EntityManager {
     }
 
     public void update() {
+        /*************
+         * Game Code *
+         *************/
 
+        // todo: Code here
+
+        for (Entity e: entities) {
+            e.update();
+        }
     }
 
     public void render(Graphics g) {
+        /*************
+         * Game Code *
+         *************/
 
+        // todo: Code here
+
+        for (Entity e: entities) {
+            e.render(g);
+        }
     }
 
     public void spawnEntity(int x, int y, EntityID id, Color color) {

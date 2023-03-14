@@ -1,5 +1,6 @@
 package com.euhedral.game;
 
+import com.euhedral.engine.Attribute;
 import com.euhedral.engine.Engine;
 import com.euhedral.engine.Utility;
 
@@ -14,33 +15,28 @@ public class VariableManager {
      ****************************************/
     private static boolean hud = true;
     private static boolean console = false;
+    private static boolean tutorial = true;
 
     /****************************************
      * Common Game Variables                *
      * Comment Out Whichever is Unnecessary *
      ****************************************/
 
-    // Vitality
-//    private int lives = 3;
+    // Notifications
+    public static String saveText = "Game Saved Successfully.";
+    public static String loadText = "Game Loaded Successfully.";
+    public static String saveDataNotification = "";
+    public static int notificationSet;
 
-    private int healthX = Utility.percWidth(2.5);
-    private int healthY = 5 * healthX;
-    private final int healthDefault = 100;
-    private int healthMAX = healthDefault;
-    private int health = healthDefault;
+    // Attributes
+
+    public static Attribute health;
 
     // Score
-    private int score = 0;
-    private int scoreX = Utility.percWidth(2.5);
-    private int scoreY = Utility.percHeight(15);
-    private int scoreSize = Utility.percWidth(2);
-
-    // Power
-    private int powerX = Utility.percWidth(24);
-    private int powerY = scoreY;
-    private int powerSize = scoreSize;
-    private final int maxPower = 5;
-    private int power = 1;
+    private static int score = 0;
+    private static int scoreX = Utility.percWidth(2.5);
+    private static int scoreY = Utility.percHeight(4);
+    private static int scoreSize = Utility.percWidth(2);
 
     public static HashMap<Color, EntityID> colorMap;
 
@@ -58,6 +54,7 @@ public class VariableManager {
     public VariableManager() {
         colorMap = new HashMap<>();
         initializeColorMap();
+        initializeAttributes();
     }
 
     private void initializeColorMap() {
@@ -65,6 +62,12 @@ public class VariableManager {
          * Game Code *
          *************/
 
+    }
+
+    private void initializeAttributes() {
+        health = new Attribute(100, false);
+        health.setY(Utility.percHeight(5));
+        health.setBodyColor(Color.green);
     }
 
     public static void console() {
@@ -80,26 +83,8 @@ public class VariableManager {
         return hud;
     }
 
-    public void resetHealth() {
-        health = healthDefault;
-    }
-
     public void resetScore() {
         score = 0;
-    }
-
-    public void resetPower() {
-        power = 1;
-    }
-
-    public void increaseHealth(int health) {
-        this.health += health;
-        if (health >= healthMAX)
-            setHealth(healthMAX);
-    }
-
-    public void decreaseHealth(int health) {
-        this.health -= health;
     }
 
     public void increaseScore(int score) {
@@ -110,39 +95,19 @@ public class VariableManager {
         this.score -= score;
     }
 
-    public void increasePower(int power) {
-        this.power += power;
-    }
-
-    public void decreasePower(int power) {
-        this.power -= power;
-    }
-
     /**********
      * Render *
      **********/
 
-    public void renderHealth(Graphics g) {
-        int width = Utility.intAtWidth640(2);
-        int height = width * 6;
-        Color backColor = Color.lightGray;
-        Color healthColor = Color.GREEN;
-        g.setColor(backColor);
-        g.fillRect(healthX, healthY, healthDefault * width, height);
-        g.setColor(healthColor);
-        g.fillRect(healthX, healthY, health * width, height);
+    public static void renderHUD(Graphics g) {
+        renderScore(g);
+        health.renderBar(g);
     }
 
-    public void renderScore(Graphics g) {
+    public static void renderScore(Graphics g) {
         g.setFont(new Font("arial", 1, scoreSize));
         g.setColor(Color.WHITE);
         g.drawString("Score: " + score, scoreX, scoreY);
-    }
-
-    public void renderPower(Graphics g) {
-        g.setFont(new Font("arial", 1, powerSize));
-        g.setColor(Color.WHITE);
-        g.drawString("Power: " + power, powerX, powerY);
     }
 
     protected void drawBossHealth(Graphics g) {
@@ -166,40 +131,12 @@ public class VariableManager {
      * Getters and setters *
      ***********************/
 
-    public int getHealthX() {
-        return healthX;
-    }
-
-    public void setHealthX(int healthX) {
-        this.healthX = healthX;
-    }
-
-    public int getHealthY() {
-        return healthY;
-    }
-
-    public void setHealthY(int healthY) {
-        this.healthY = healthY;
-    }
-
-    public int getHealthDefault() {
-        return healthDefault;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getScore() {
+    public static int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public static void setScore(int score) {
+        VariableManager.score = score;
     }
 
     public int getScoreX() {
@@ -207,7 +144,7 @@ public class VariableManager {
     }
 
     public void setScoreX(int scoreX) {
-        this.scoreX = scoreX;
+        VariableManager.scoreX = scoreX;
     }
 
     public int getScoreY() {
@@ -215,7 +152,7 @@ public class VariableManager {
     }
 
     public void setScoreY(int scoreY) {
-        this.scoreY = scoreY;
+        VariableManager.scoreY = scoreY;
     }
 
     public int getScoreSize() {
@@ -223,43 +160,7 @@ public class VariableManager {
     }
 
     public void setScoreSize(int scoreSize) {
-        this.scoreSize = scoreSize;
-    }
-
-    public int getPowerX() {
-        return powerX;
-    }
-
-    public void setPowerX(int powerX) {
-        this.powerX = powerX;
-    }
-
-    public int getPowerY() {
-        return powerY;
-    }
-
-    public void setPowerY(int powerY) {
-        this.powerY = powerY;
-    }
-
-    public int getPowerSize() {
-        return powerSize;
-    }
-
-    public void setPowerSize(int powerSize) {
-        this.powerSize = powerSize;
-    }
-
-    public int getMaxPower() {
-        return maxPower;
-    }
-
-    public int getPower() {
-        return power;
-    }
-
-    public void setPower(int power) {
-        this.power = power;
+        VariableManager.scoreSize = scoreSize;
     }
 
     public int getHealthBossDef() {
@@ -292,5 +193,18 @@ public class VariableManager {
 
     public void setBossLives(boolean bossLives) {
         this.bossLives = bossLives;
+    }
+
+    public static boolean tutorialEnabled() {
+        return tutorial;
+    }
+
+    public static void toggleTutorial() {
+        tutorial = !tutorial;
+        SaveLoad.saveSettings();
+    }
+
+    public static void resetSaveDataNotification() {
+        saveDataNotification = "";
     }
 }

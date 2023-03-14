@@ -12,6 +12,7 @@ public class Animation {
 
     private BufferedImage[] images;
     private BufferedImage curr;
+    public boolean playedOnce = false;
 
     public Animation(int speed, BufferedImage... args) {
         this.speed = speed;
@@ -35,6 +36,7 @@ public class Animation {
         count++;
         if (count >= frames) {
             count = 0;
+            playedOnce = true;
         }
     }
 
@@ -44,5 +46,13 @@ public class Animation {
 
     public void drawAnimation(Graphics g, int x, int y, int scaleX, int scaleY) {
         g.drawImage(curr, x, y, scaleX, scaleY, null);
+    }
+
+    public boolean isFrame(int i) {
+        return count == i;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

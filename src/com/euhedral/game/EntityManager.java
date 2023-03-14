@@ -1,6 +1,7 @@
 package com.euhedral.game;
 
 import com.euhedral.engine.Entity;
+import com.euhedral.game.Entities.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ public class EntityManager {
     private LinkedList<Entity> entities;
 
     // Player
+    private Player player;
 
     // Entity Lists
 
@@ -22,7 +24,12 @@ public class EntityManager {
          ***************/
 
         this.variableManager = variableManager;
+        initializeEntities();
+//        initializeGraphics();
+//        initializeAnimations();
+    }
 
+    private void initializeEntities() {
         /*************
          * Game Code *
          *************/
@@ -55,6 +62,8 @@ public class EntityManager {
 
         // todo: Code here
 
+//        updatePlayer();
+
         for (Entity e: entities) {
             e.update();
         }
@@ -66,6 +75,8 @@ public class EntityManager {
          *************/
 
         // todo: Code here
+
+//        renderPlayer(g);
 
         for (Entity e: entities) {
             e.render(g);
@@ -79,6 +90,14 @@ public class EntityManager {
     /********************
      * Player Functions *
      ********************/
+
+    public void updatePlayer() {
+        player.update();
+    }
+
+    public void renderPlayer(Graphics g) {
+        player.render(g);
+    }
 
     /*******************************
      * Entity Management Functions *

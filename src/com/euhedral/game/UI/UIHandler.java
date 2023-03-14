@@ -66,8 +66,7 @@ public class UIHandler {
     }
 
     public void checkButtonAction(int mx, int my) {
-        currentMenu.checkButtonAction(mx, my);
-        action = currentMenu.getAction();
+        action = currentMenu.checkButtonAction(mx, my);
     }
 
     public void chooseSelected() {

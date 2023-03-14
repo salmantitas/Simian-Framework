@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 // Manages the game itself, and passes instructions to all other classes under it
 public class GameController {
-    private UIHandler uiHandler;
 
     public Scanner scanner;
     public static String cmd;
@@ -27,14 +26,15 @@ public class GameController {
     private String gameTitle = Engine.TITLE;
     private Color gameBackground = Engine.BACKGROUND_COLOR;
 
+    // Management
+    private UIHandler uiHandler;
+    private VariableManager variableManager;
+    private EntityManager entityManager;
+
     // High Score
     private LinkedList<Integer> highScore = new LinkedList<>();
     private int highScoreNumbers = 5;
     private boolean updateHighScore = false;
-
-    // Objects
-    private VariableManager variableManager;
-    private EntityManager entityManager;
 
     // Camera
     private Camera camera;
@@ -42,10 +42,15 @@ public class GameController {
     int offsetVertical;
 
     // Graphics
-    public static Texture texture;
+    private static Texture texture;
+    private static Sound sound;
 
     // Level Generation
     private LevelGenerator levelGenerator;
+
+    /******************
+     * User variables *
+     ******************/
 
     // LevelMap to automate level loading
     private HashMap<Integer, BufferedImage> levelMap;
@@ -53,10 +58,6 @@ public class GameController {
     // Levels
     private int levelWidth, levelHeight;
     private boolean loadMission = false;
-
-    /******************
-     * User variables *
-     ******************/
 
     /************
      * Graphics *
@@ -74,9 +75,10 @@ public class GameController {
         gameHeight = Engine.HEIGHT;
         uiHandler = new UIHandler();
 
-        initializeGame();
         initializeGraphics();
+        initializeSound();
         initializeAnimations();
+        initializeGame();
         initializeLevel();
     }
 
@@ -104,8 +106,14 @@ public class GameController {
         /*************
          * Game Code *
          *************/
-
         texture = new Texture();
+    }
+
+    private void initializeSound() {
+        /*************
+         * Game Code *
+         *************/
+        sound = new Sound();
     }
 
     private void initializeAnimations() {
@@ -149,7 +157,7 @@ public class GameController {
          * */
         if (Engine.stateIs(GameState.Game) && !VariableManager.isConsole()) {
             loadMission = false;
-            boolean endGameCondition = variableManager.getHealth() <= 0;
+            boolean endGameCondition = variableManager.health.getValue() <= 0;
 
             if (endGameCondition) {
                 Engine.gameOverState();
@@ -177,7 +185,8 @@ public class GameController {
 
         }
 
-        if (Engine.currentState == GameState.Game || Engine.currentState == GameState.Pause || Engine.currentState == GameState.GameOver) {
+        if (Engine.currentState == GameState.Game || Engine.currentState == GameState.Pause ||
+                Engine.currentState == GameState.GameOver) {
 
 //            renderInCamera(g);
 
@@ -284,8 +293,7 @@ public class GameController {
 
         Engine.timer = 0;
         variableManager.resetScore();
-        variableManager.resetPower();
-        variableManager.resetHealth();
+        variableManager.health.reset();
 
         /*************
          * Game Code *
@@ -300,20 +308,6 @@ public class GameController {
 
         uiHandler.checkButtonAction(mx, my);
         performAction();
-    }
-
-    public void save() {
-        SaveLoad.saveGame();
-        System.out.println("Saving");
-    }
-
-    public void load() {
-        try {
-            SaveLoad.loadGame();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Loading");
     }
 
     private void performAction() {
@@ -339,8 +333,33 @@ public class GameController {
         uiHandler.updateState(state);
     }
 
+    /****************************
+     * Saving/Loading Functions *
+     ****************************/
+
+    public void save() {
+        SaveLoad.saveGame();
+        System.out.println("Saving");
+    }
+
+    public void load() {
+        try {
+            SaveLoad.loadGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Loading");
+    }
+
+    /*********************
+     * Texture Functions *
+     *********************/
+
     public static Texture getTexture() {
         return texture;
+    }
+    public static Sound getSound() {
+        return sound;
     }
 
     /************************
@@ -386,32 +405,6 @@ public class GameController {
     /***************************
      * Render Helper Functions *
      ***************************/
-
-    private void drawScore(Graphics g) {
-        variableManager.renderScore(g);
-    }
-
-    private void drawHealth(Graphics g) {
-        variableManager.renderHealth(g);
-    }
-
-    private void drawPower(Graphics g) {
-        variableManager.renderPower(g);
-    }
-
-//    private void drawLives(Graphics g) {
-//        int x = Engine.intAtWidth640(10);
-//        int y = x/2;
-//        int sep = x*2; //x/5;
-//        int width = Engine.intAtWidth640(16);
-//        int height = width;
-//        Color color = Color.GREEN;
-//        for (int i = 0; i < lives; i++)
-//        {
-//            g.setColor(color);
-//            g.fillOval(x + sep * i, y, width, height);
-//        }
-//    }
 
     public void drawHighScore(Graphics g) {
         g.setFont(new Font("arial", 1, 20));

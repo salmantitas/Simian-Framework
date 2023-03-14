@@ -15,6 +15,8 @@ public abstract class Entity {
     protected BufferedImage image;
     protected BufferedImage images[];
 
+    // Animation
+    // why are there here again?
     protected Animation anim;
     protected int animationSpeed = 3;
 
@@ -201,5 +203,9 @@ public abstract class Entity {
 
     protected void printLocation() {
         System.out.printf("__ at (%d, %d)", x, y);
+    }
+
+    public EntityID getID() {
+        return id;
     }
 }

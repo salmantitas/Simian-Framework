@@ -17,7 +17,6 @@ import java.util.List;
 // Each Menu is specific to a gameState
 public class Menu {
 
-    protected ActionTag action = null;
     private int index = 0; // for buttons
     private GameState state;
     protected LinkedList<MenuItem> menuItems = new LinkedList<>();
@@ -30,22 +29,27 @@ public class Menu {
 
     // Title Variables
 
-    protected int titleX = Utility.percWidth(9);
-    protected int titleY = Utility.percHeight(20);
+    protected int titleX = Utility.percWidth(10);
     protected int titleSize = Utility.percWidth(11.5);
     protected Color titleColor = Color.BLACK;
 
     protected int buttonSize = Utility.percWidth(5);
     protected int x0 = Utility.percWidth(5);
+    protected int x10 = Utility.percWidth(10);
+    protected int x15 = Utility.percWidth(30);
     protected int x2 = Utility.percWidth(40);
-    protected int x3 = Utility.percWidth(45);
+    protected int x3 = Utility.percWidth(43);
     protected int x4 = Utility.percWidth(50);
     protected int xFINAL = Utility.percWidth(75);
-    protected int y0 = Utility.percHeight(30);
-    protected int y1 = Utility.percHeight(40);
-    protected int y2 = Utility.percHeight(50);
-    protected int y3 = Utility.percHeight(60);
-    protected int yFINAL = Utility.percHeight(70);
+    protected int y00 = Utility.percHeight(20);
+    protected int y10 = Utility.percHeight(20);
+    protected int y20 = Utility.percHeight(30);
+    protected int y30 = Utility.percHeight(38);
+    protected int y40 = Utility.percHeight(46);
+    protected int y50 = Utility.percHeight(54);
+    protected int y60 = Utility.percHeight(64);
+    protected int y70 = Utility.percHeight(72);
+    protected int yFINAL = Utility.percHeight(80);
 
     public Menu(GameState state) {
         this.state = state;
@@ -70,9 +74,11 @@ public class Menu {
 
     // UIItems here will be rendered on top of everything else
     protected void postRender(Graphics g) {
-        /************
-        * Game Code *
-        *************/
+        if (VariableManager.tutorialEnabled()) {
+            for (MessageBox messageBox : messageBoxes) {
+                messageBox.render(g);
+            }
+        }
     }
 
     /*
@@ -99,7 +105,8 @@ public class Menu {
     /*
      * Checks whether the mouse has clicked on a button. If true, the button is activated.
      * */
-    public void checkButtonAction(int mx, int my) {
+    public ActionTag checkButtonAction(int mx, int my) {
+        ActionTag returnAction = null;
         for (int i = 0; i < messageBoxes.size(); i++) {
             MessageBox messageBox = messageBoxes.get(i);
             if (messageBox.mouseOverlap(mx, my)) {
@@ -116,31 +123,34 @@ public class Menu {
                 Button button = options[i];
                 if (button.mouseOverlap(mx, my)) {
                     if (button.isEnabled()) {
-                        activateButton(button);
+                        returnAction = activateButton(button);
                         break;
                     }
                 }
             }
         }
+        return returnAction;
     }
 
     /*
      * If the selected button is a navigation button, the GameState is changed. Otherwise, the ActionTag is applied.
      * */
-    public void activateButton(Button button) {
+    public ActionTag activateButton(Button button) {
+        ActionTag returnAction = null;
         if (button instanceof ButtonNav) {
             button.activate();
         } else {
             ButtonAction actButton = (ButtonAction) button;
-            this.action = actButton.getAction();
+            returnAction = actButton.getAction();
         }
+        return returnAction;
     }
 
     /*
      * Activates the button that is selected
      * */
-    public void chooseSelected() {
-        activateButton(options[index]);
+    public ActionTag chooseSelected() {
+        return activateButton(options[index]);
     }
 
     /*
@@ -163,10 +173,6 @@ public class Menu {
 
     public GameState getState() {
         return state;
-    }
-
-    public ActionTag getAction() {
-        return action;
     }
 
     public int getActiveMessageBoxes() {

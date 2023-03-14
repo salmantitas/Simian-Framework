@@ -92,11 +92,6 @@ public class Button extends UIItem{
         return(AlphaComposite.getInstance(type, alpha));
     }
 
-    // todo: removal
-    public void addOtherState(GameState state) {
-        otherStates.add(state);
-    }
-
     public void activate() {
 
     }

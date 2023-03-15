@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Euhedral Engine.iml" filepath="$PROJECT_DIR$/Euhedral Engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Simian Framework.iml" filepath="$PROJECT_DIR$/Simian Framework.iml" />
     </modules>
   </component>
 </project>
